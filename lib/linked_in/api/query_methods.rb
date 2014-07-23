@@ -57,6 +57,12 @@ module LinkedIn
         path = "#{person_path(options)}/network/updates/key=#{update_key}/likes"
         simple_query(path, options)
       end
+      
+      # returns array of the user's full-size profile pictures URLs
+      def full_profile_pictures(options={})
+        path = "#{person_path(options)}/picture-urls::(original)"
+        simple_query(path, options).all
+      end
 
       private
 
