@@ -58,7 +58,7 @@ module LinkedIn
         simple_query(path, options)
       end
       
-      # returns array with links to full-size profile pictures. requires 'r_fullprofile' permission
+      # returns array of the user's full-size profile pictures URLs
       def full_profile_pictures(options={})
         path = "#{person_path(options)}/picture-urls::(original)"
         simple_query(path, options).all
