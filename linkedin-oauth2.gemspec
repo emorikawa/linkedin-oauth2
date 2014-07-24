@@ -1,7 +1,5 @@
 # encoding: utf-8
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
-
-require 'linked_in/version'
+require_relative 'lib/linked_in/version'
 
 Gem::Specification.new do |gem|
   gem.name        = "linkedin-oauth2"
@@ -18,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.required_rubygems_version = '>= 1.8.11'
 
   gem.files         = `git ls-files`.split("\n")
-  gem.test_files    = `git ls-files -- spec/*`.split("\n")
+  gem.test_files    = `git ls-files -- spec/**/*`.split("\n")
   gem.require_paths = ["lib"]
 
   gem.add_dependency "oauth2", "~> 1.0"

@@ -5,6 +5,8 @@ Gemfile.lock
 .Gemfile
 .bundle
 .rvmrc
+.rspec # Use your own ~/.rspec
 .ruby-gemset
 .ruby-version
 /*.gem
+pkg
