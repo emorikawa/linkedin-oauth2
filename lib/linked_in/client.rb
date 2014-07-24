@@ -1,7 +1,4 @@
-require 'cgi'
-
 module LinkedIn
-
   class Client
     include Helpers::Request
     include Helpers::Authorization
@@ -27,5 +24,4 @@ module LinkedIn
       end
     end
   end
-
 end

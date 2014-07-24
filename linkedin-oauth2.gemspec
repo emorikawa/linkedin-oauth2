@@ -1,6 +1,5 @@
 # encoding: utf-8
-# Add /lib to $LOAD_PATH
-$:.unshift(File.join(File.dirname(__FILE__), 'lib'))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
 require 'linked_in/version'
 
@@ -19,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.required_rubygems_version = '>= 1.8.11'
 
   gem.files         = `git ls-files`.split("\n")
-  gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  gem.test_files    = `git ls-files -- spec/*`.split("\n")
   gem.require_paths = ["lib"]
 
   gem.add_dependency "oauth2", "~> 1.0"
