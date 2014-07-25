@@ -1,6 +1,7 @@
 require "oauth2"
 require "linked_in/version"
 require "linked_in/configuration"
+require "linked_in/oauth"
 
 module LinkedIn
   class << self

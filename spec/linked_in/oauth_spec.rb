@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe LinkedIn::Oauth do
+describe LinkedIn::OAuth2 do
   let(:oauth_host)     { "https://www.linkedin.com"  }
   let(:token_path)     { "/uas/oauth2/accessToken"   }
   let(:authorize_path) { "/uas/oauth2/authorization" }
@@ -9,7 +9,7 @@ describe LinkedIn::Oauth do
   let(:client_secret) { "dummy_client_secret" }
 
   it "creates a valid oauth object" do
-    expect(subject).to be_kind_of(LinkedIn::Oauth)
+    expect(subject).to be_kind_of(LinkedIn::OAuth2)
   end
 
   it "is a subclass of OAuth2::Client" do
@@ -42,31 +42,48 @@ describe LinkedIn::Oauth do
       end
     end
 
-    include_examples "verify_client"
+    include_examples "verify client"
   end
 
   context "When client credentials do not exist" do
     let(:err_msg) {"Client credentials do not exist. Please either pass your client_id and client_secret to the LinkedIn::Oauth.new constructor or set them via LinkedIn.configure"}
 
-    expect { LinkedIn::Oauth.new }.to raise_error(LinkedIn::Errors::GeneralError, err_msg)
+    it "raises an error" do
+      expect { LinkedIn::OAuth2.new }.to raise_error(LinkedIn::Errors::GeneralError, err_msg)
+    end
   end
 
   context "When client credentials are passed in" do
-    subject { LinkedIn::Oauth.new(client_id, client_secret) }
+    subject { LinkedIn::OAuth2.new(client_id, client_secret) }
 
-    include_examples "verify_client"
+    include_examples "verify client"
+  end
+
+  shared_examples "options take" do
+    it "overrides default options" do
+      expect(subject.options[:raise_errors]).to eq false
+    end
+    it "sets new options" do
+      expect(subject.options[:new_opt]).to eq "custom option"
+    end
+  end
+
+  let(:options) do
+    return {raise_errors: false,
+            new_opt: "custom option"}
   end
 
   context "When custom options are passed in" do
-    let(:options) do
-      return {raise_errors: false,
-              new_opt: "custom option"}
-    end
     subject do
-      LinkedIn::Oauth.new(client_id, client_secret, options)
+      LinkedIn::OAuth2.new(client_id, client_secret, options)
     end
+    include_examples "options take"
+  end
 
-    expect(subject.options[:raise_errors]).to eq false
-    expect(subject.options[:new_opt]).to eq "custom option"
+  context "When custom options are passed in as first arg" do
+    subject do
+      LinkedIn::OAuth2.new(options)
+    end
+    include_examples "options take"
   end
 end

@@ -44,13 +44,13 @@ Here is how to get an access token using this linkedin-oauth2 gem:
 ```ruby
 # It's best practice to keep secret credentials out of source code.
 # You can, of course, hardcode dev keys or directly pass them in as the
-# first two arguments of LinkedIn::Oauth.new
+# first two arguments of LinkedIn::OAuth2.new
 LinkedIn.configure do |config|
   config.client_id     = ENV["LINKEDIN_CLIENT_ID"]
   config.client_secret = ENV["LINKEDIN_CLIENT_SECRET"]
 end
 
-@oauth = LinkedIn::Oauth.new
+@oauth = LinkedIn::OAuth2.new
 
 url = @oauth.url_for_oauth_code
 ```
@@ -60,7 +60,7 @@ sign in box. Once LinkedIn user credentials are entered, the box will
 close and redirect to your callback url, passing along with it the
 **OAuth code** as a GET param.
 
-Be sure to read the extended documentation around the LinkedIn::Oauth
+Be sure to read the extended documentation around the LinkedIn::OAuth2
 module for more options you can set.
 
 **Note:** The **OAuth code** only lasts for ~20 seconds!
