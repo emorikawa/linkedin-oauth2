@@ -1,4 +1,7 @@
 # encoding: utf-8
+# Follow http://guides.rubygems.org/ best practices
+
+# No $LOAD_PATH mangling required
 require_relative 'lib/linked_in/version'
 
 Gem::Specification.new do |gem|
@@ -13,7 +16,6 @@ Gem::Specification.new do |gem|
 
   # To support native JSON. Same requirements as Rails.
   gem.required_ruby_version     = '>= 1.9.3'
-  gem.required_rubygems_version = '>= 1.8.11'
 
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- spec/**/*`.split("\n")
@@ -22,6 +24,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency "oauth2", "~> 1.0"
 
   gem.add_development_dependency "rake"
-  gem.add_development_dependency "rdoc"
   gem.add_development_dependency "rspec"
 end

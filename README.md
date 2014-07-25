@@ -1,14 +1,106 @@
 # LinkedIn
 
-Oauth 2.0 Ruby wrapper for the [LinkedIn API](http://developer.linkedin.com). Heavily inspired by [pengwynn/linkedin](https://github.com/pengwynn/linkedin)'s Oauth 1.0 Linkedin API interface. Most methods are the same as pengwynn/linkedin's gem, but major terminology changes make this incompatible.
-
-Travis CI : [![Build Status](https://secure.travis-ci.org/emorikawa/linkedin-oauth2.png)](http://travis-ci.org/emorikawa/linkedin-oauth2)
+Oauth 2.0 Ruby wrapper for the [LinkedIn API](http://developer.linkedin.com).
 
 ## Installation
 
-    [sudo] gem install linkedin-oauth2
+In Bundler:
+
+```ruby
+gem "linkedin-oauth2", "~> 1.0"
+```
+
+Otherwise:
+
+    [sudo|rvm] gem install linkedin-oauth2
 
 ## Usage
+
+**Step 1:** [Register](https://www.linkedin.com/secure/developer) your
+application with LinkedIn. They will give you a **Client ID** (aka API
+Key) and a **Client Secret** (aka Secret Key)
+
+**Step 2:** Use your **Client ID** and **Client Secret** to obtain an **Access Token** from some user.
+
+**Step 3:** Use an **Access Token** to query the API.
+
+### Getting An Access Token
+
+All LinkedIn API requests must be made in the context of an access token.
+The access token encodes what LinkedIn information your AwesomeApp® can
+gather on behalf of "John Doe".
+
+There are a few different ways to get an access token from a user.
+
+1. You can use [LinkedIn's Javascript API](https://developer.linkedin.com/documents/javascript-api-reference-0) to authenticate on the front-end and then pass the access token to the backend via [this procedure](https://developer.linkedin.com/documents/exchange-jsapi-tokens-rest-api-oauth-tokens).
+
+1. If you use OmniAuth, I would recommend looking at [decioferreira/omniauth-linkedin-oauth2](https://github.com/decioferreira/omniauth-linkedin-oauth2) to help automate authentication.
+
+1. You can do it manually using this linkedin-oauth2 gem and the steps
+   below.
+
+Here is how to get an access token using this linkedin-oauth2 gem:
+
+```ruby
+# It's best practice to keep secret credentials out of source code.
+# You can, of course, hardcode dev keys or directly pass them in as the
+# first two arguments of LinkedIn::Oauth.new
+LinkedIn.configure do |config|
+  config.client_id     = ENV["LINKEDIN_CLIENT_ID"]
+  config.client_secret = ENV["LINKEDIN_CLIENT_SECRET"]
+end
+
+@oauth = LinkedIn::Oauth.new
+
+url = @oauth.url_for_oauth_code
+```
+
+You must now load that url in a browser. It will pull up the LinkedIn
+sign in box. Once LinkedIn user credentials are entered, the box will
+close and redirect to your callback url, passing along with it the
+**OAuth code** as a GET param.
+
+Be sure to read the extended documentation around the LinkedIn::Oauth
+module for more options you can set.
+
+**Note:** The **OAuth code** only lasts for ~20 seconds!
+
+```ruby
+code = "THE_OAUTH_CODE_LINKEDIN_GAVE_ME"
+
+access_token = @oauth.get_access_token(code)
+```
+
+Now that you have an access token, you can use it to query the API.
+
+### Using LinkedIn's API
+
+Once you have an access token, you can query LinkedIn's API.
+
+```ruby
+@api = LinkedIn::API.new(access_token)
+
+person = @api.profile
+
+connections = @api.connections
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Authenticate Overview
 
