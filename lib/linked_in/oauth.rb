@@ -6,15 +6,20 @@ module LinkedIn
 
       if client_id.is_a? Hash
         options = client_id
-        client_id = LinekdIn.config.client_id
+        client_id = LinkedIn.config.client_id
       end
 
       check_credentials!(client_id, client_secret)
+
+      options = default_oauth_options(options)
 
       super client_id, client_secret, options, &block
     end
 
     private ##############################################################
+
+    def default_oauth_options(options={})
+    end
 
     def check_credentials!(client_id, client_secret)
       if client_id.nil? or client_secret.nil?

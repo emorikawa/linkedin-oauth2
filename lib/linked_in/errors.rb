@@ -1,5 +1,6 @@
 module LinkedIn
   module Errors
+
     class LinkedInError < StandardError
       attr_reader :data
       def initialize(data)
