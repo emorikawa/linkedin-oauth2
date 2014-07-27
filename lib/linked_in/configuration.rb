@@ -1,6 +1,6 @@
 module LinkedIn
   class Configuration
-    attr_accessor :host,
+    attr_accessor :site,
                   :client_id,
                   :token_url,
                   :authorize_url,
@@ -10,7 +10,7 @@ module LinkedIn
     alias_method :secret_key, :client_secret
 
     def initialize
-      @host = "https://www.linkedin.com"
+      @site = "https://www.linkedin.com"
       @token_url = "/uas/oauth2/accessToken"
       @authorize_url = "/uas/oauth2/authorization"
     end

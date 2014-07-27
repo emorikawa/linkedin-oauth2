@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "LinkedIn configuration" do
   let(:config_value) { "Foo Bar" }
 
-  let(:host)          { "https://www.linkedin.com"  }
+  let(:site)          { "https://www.linkedin.com"  }
   let(:token_url)     { "/uas/oauth2/accessToken"   }
   let(:authorize_url) { "/uas/oauth2/authorization" }
 
@@ -32,8 +32,8 @@ describe "LinkedIn configuration" do
     expect(subject.secret_key).to eq config_value
   end
 
-  it("has the correct default host") do
-    expect(subject.host).to eq host
+  it("has the correct default site") do
+    expect(subject.site).to eq site
   end
 
   it("has the correct default token_url") do

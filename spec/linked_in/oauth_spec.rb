@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe LinkedIn::OAuth2 do
-  let(:host)          { LinkedIn.config.host }
+  let(:site)          { LinkedIn.config.site }
   let(:token_url)     { LinkedIn.config.token_url }
   let(:authorize_url) { LinkedIn.config.authorize_url }
 
@@ -21,14 +21,23 @@ describe LinkedIn::OAuth2 do
     it "assigned the client_secret to secret" do
       expect(subject.secret).to eq client_secret
     end
-    it "assigned the site to host" do
-      expect(subject.site).to eq host
+    it "assigned the site to site" do
+      expect(subject.site).to eq site
     end
     it "assigned the authorize_url option" do
       expect(subject.options[:authorize_url]).to eq authorize_url
     end
     it "assigned the token_url option" do
       expect(subject.options[:token_url]).to eq token_url
+    end
+  end
+
+  shared_examples "options take" do
+    it "overrides default options" do
+      expect(subject.options[:raise_errors]).to eq false
+    end
+    it "sets new options" do
+      expect(subject.options[:new_opt]).to eq "custom option"
     end
   end
 
@@ -41,10 +50,24 @@ describe LinkedIn::OAuth2 do
     end
 
     include_examples "verify client"
+
+    context "When custom options are passed in as first arg" do
+      subject do
+        LinkedIn::OAuth2.new(options)
+      end
+      include_examples "options take"
+    end
   end
 
   context "When client credentials do not exist" do
     let(:err_msg) {"Client credentials do not exist. Please either pass your client_id and client_secret to the LinkedIn::Oauth.new constructor or set them via LinkedIn.configure"}
+
+    before(:example) do
+      LinkedIn.configure do |config|
+        config.client_id     = nil
+        config.client_secret = nil
+      end
+    end
 
     it "raises an error" do
       expect { LinkedIn::OAuth2.new }.to raise_error(LinkedIn::Errors::GeneralError, err_msg)
@@ -55,15 +78,6 @@ describe LinkedIn::OAuth2 do
     subject { LinkedIn::OAuth2.new(client_id, client_secret) }
 
     include_examples "verify client"
-  end
-
-  shared_examples "options take" do
-    it "overrides default options" do
-      expect(subject.options[:raise_errors]).to eq false
-    end
-    it "sets new options" do
-      expect(subject.options[:new_opt]).to eq "custom option"
-    end
   end
 
   let(:options) do
@@ -78,10 +92,4 @@ describe LinkedIn::OAuth2 do
     include_examples "options take"
   end
 
-  context "When custom options are passed in as first arg" do
-    subject do
-      LinkedIn::OAuth2.new(options)
-    end
-    include_examples "options take"
-  end
 end

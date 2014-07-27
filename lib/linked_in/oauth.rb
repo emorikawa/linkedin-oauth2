@@ -18,7 +18,12 @@ module LinkedIn
 
     private ##############################################################
 
-    def default_oauth_options(options={})
+    def default_oauth_options(custom_options={})
+      options = {}
+      options[:site] = LinkedIn.config.site
+      options[:token_url] = LinkedIn.config.token_url
+      options[:authorize_url] = LinkedIn.config.authorize_url
+      return options.merge custom_options
     end
 
     def check_credentials!(client_id, client_secret)
