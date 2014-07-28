@@ -3,13 +3,12 @@ require "uri"
 require "cgi"
 
 describe "OAuth2 Auth Code" do
-  before(:each) do
+  before(:example) do
     LinkedIn.configure do |config|
       config.client_id     = "dummy_client_id"
       config.client_secret = "dummy_client_secret"
     end
   end
-
   subject { LinkedIn::OAuth2.new }
 
   def params(key, opts=nil)
@@ -17,7 +16,7 @@ describe "OAuth2 Auth Code" do
   end
 
   context "When no redirect_uri is given" do
-    before(:each) do
+    before(:example) do
       LinkedIn.configure { |config| config.redirect_uri = nil }
     end
 
@@ -32,7 +31,7 @@ describe "OAuth2 Auth Code" do
     let(:redirect_uri) { "http://lvh.me:5000" }
     let(:scope) { "r_fullprofile r_emailaddress r_network" }
 
-    before(:each) do
+    before(:example) do
       LinkedIn.configure do |config|
         config.redirect_uri = redirect_uri
         config.scope = scope

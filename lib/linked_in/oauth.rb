@@ -10,6 +10,8 @@ module LinkedIn
   # More details on LinkedIn's Authorization process can be found here: https://developer.linkedin.com/documents/authentication
   class OAuth2 < ::OAuth2::Client
 
+    attr_accessor :access_token
+
     # Instantiate a new OAuth 2.0 client using the
     # Client ID and Client Secret registered to your
     # application.
@@ -51,6 +53,8 @@ module LinkedIn
 
       super client_id, client_secret, options, &block
 
+      @redirect_uri = options[:redirect_uri]
+
       if self.options[:raise_errors]
         check_credentials!(client_id, client_secret)
       end
@@ -60,13 +64,39 @@ module LinkedIn
       options = default_auth_code_url_options(options)
 
       if self.options[:raise_errors]
-        check_auth_code_url!(options)
+        check_redirect_uri!(options)
       end
+
+      @redirect_uri = options[:redirect_uri]
 
       self.auth_code.authorize_url(options)
     end
 
+    def get_access_token(code=nil, options={})
+      check_for_code!(code)
+      options = default_access_code_options(options)
+
+      if self.options[:raise_errors]
+        check_access_code_url!(options)
+      end
+
+      token_obj = self.auth_code.get_token(code, options)
+      self.access_token = token_obj
+      return token_obj.token
+    end
+
     private ##############################################################
+
+    def default_access_code_options(custom_options={})
+      custom_options ||= {}
+      options = {raise_errors: true}
+
+      @redirect_uri = LinkedIn.config.redirect_uri if @redirect_uri.nil?
+      options[:redirect_uri] = @redirect_uri
+
+      options = options.merge custom_options
+      return options
+    end
 
     def default_auth_code_url_options(custom_options={})
       custom_options ||= {}
@@ -92,7 +122,21 @@ module LinkedIn
       SecureRandom.base64(32)
     end
 
-    def check_auth_code_url!(options={})
+    def check_access_code_url!(options={})
+      check_redirect_uri!(options)
+      if options[:redirect_uri] != @redirect_uri
+        raise redirect_uri_mismatch
+      end
+    end
+
+    def check_for_code!(code)
+      if code.nil?
+        msg = ErrorMessages.no_auth_code
+        raise InvalidRequest.new(msg)
+      end
+    end
+
+    def check_redirect_uri!(options={})
       if options[:redirect_uri].nil?
         raise redirect_uri_error
       end
@@ -114,13 +158,15 @@ module LinkedIn
     end
 
     def redirect_uri_error
-      msg = LinkedIn::ErrorMessages.redirect_uri
-      LinkedIn::InvalidRequest.new(msg)
+      InvalidRequest.new ErrorMessages.redirect_uri
     end
 
     def credential_error
-      msg = LinkedIn::ErrorMessages.credentials_missing
-      LinkedIn::InvalidRequest.new(msg)
+      InvalidRequest.new ErrorMessages.credentials_missing
+    end
+
+    def redirect_uri_mismatch
+      InvalidRequest.new ErrorMessages.redirect_uri_mismatch
     end
   end
 end
