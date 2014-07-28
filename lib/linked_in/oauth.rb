@@ -12,9 +12,8 @@ module LinkedIn
 
     attr_accessor :access_token
 
-    # Instantiate a new OAuth 2.0 client using the
-    # Client ID and Client Secret registered to your
-    # application.
+    # Instantiate a new OAuth 2.0 client using your client ID (aka API
+    # Key) and client secret (aka Secret Key).
     #
     # You should set the client_id and client_secret in the config.
     #
@@ -30,15 +29,15 @@ module LinkedIn
     #
     # @param [String] client_id the client_id value
     # @param [String] client_secret the client_secret value
-    # @param [Hash] opts the options to create the client with
-    # @option opts [Symbol] :token_method (:post) HTTP method to use to
+    # @param [Hash] options the options to create the client with
+    # @option options [Symbol] :token_method (:post) HTTP method to use to
     #   request token (:get or :post)
-    # @option opts [Hash] :connection_opts ({}) Hash of connection options 
+    # @option options [Hash] :connection_opts ({}) Hash of connection options 
     #   to pass to initialize Faraday with
-    # @option opts [FixNum] :max_redirects (5) maximum number of redirects 
+    # @option options [FixNum] :max_redirects (5) maximum number of redirects 
     #   to follow
-    # @option opts [Boolean] :raise_errors (true) whether or not to raise 
-    #   an OAuth2::Error on responses with 400+ status codes
+    # @option options [Boolean] :raise_errors (true) whether or not to
+    #   raise an error on malformed responses
     # @yield [builder] The Faraday connection builder
     def initialize(client_id=LinkedIn.config.client_id,
                    client_secret=LinkedIn.config.client_secret,
@@ -60,6 +59,34 @@ module LinkedIn
       end
     end
 
+    # Generates the URL users use to sign into your application.
+    #
+    # Once a user enters their LinkedIn credentials, they will be
+    # redirected to your `redirect_uri` with the `code` parameter attached
+    # to it. The value of the `code` parameter can be used to get an
+    # access token.
+    #
+    # We recommend you set your `client_id, `client_secret`, and
+    # `redirect_uri` in the `LinkedIn.configure` block. They can also be
+    # passed in as options.
+    #
+    # @param [Hash] options the options to generate the url with
+    # @option options [String] :redirect_uri The url that gets redirected
+    #   to after a successful authentication. This must exactly match the
+    #   redirect urls setup on your LinkedIn Application Settings page.
+    #   This option is not required if you already set the redirect_uri in
+    #   the config.
+    # @option options [String] :scope A string of requested permissions
+    #   you want from users when they authenticate with your app. If these
+    #   are set on yoru LinkedIn Application settings page, you do not
+    #   need to pass them in. The string must be a space-sparated,
+    #   case-sensitive list of available scopes. See available scopes on
+    #   LinkedIn's API documentation page.
+    # @option options [String] :state A long string used for CSRF
+    #   protection. It is added as the `state` GET param in the
+    #   redirect_uri
+    # @option options [Boolean] :raise_errors (true) whether or not to
+    #   raise an error on malformed responses
     def auth_code_url(options={})
       options = default_auth_code_url_options(options)
 
@@ -72,6 +99,24 @@ module LinkedIn
       self.auth_code.authorize_url(options)
     end
 
+    # Returns the access token string for the newly authenticated user.
+    #
+    # It also sets the `access_token` field on this LinkedIn::OAuth2
+    # instance.
+    #
+    # The required `code`
+    #
+    # @param [String] code the auth code which is passed in as a GET
+    #   parameter to your `redirect_uri` after users authenticate your app
+    # @param [Hash] options
+    # @option options [String] :redirect_uri You normally should not have
+    #   to pass in the redirect_uri again. If `auth_code_url` was called
+    #   on this LinkedIn::OAuth2 instance, then the `redirect_uri` will
+    #   already be set. This is because the `redirect_uri` in the access
+    #   token request must exactly match the `redirect_uri` in the auth
+    #   code url.
+    # @option options [Boolean] :raise_errors (true) whether or not to
+    #   raise an error on malformed responses
     def get_access_token(code=nil, options={})
       check_for_code!(code)
       options = default_access_code_options(options)
@@ -87,7 +132,9 @@ module LinkedIn
       raise OAuthError.new(e.response)
     end
 
+
     private ##############################################################
+
 
     def default_access_code_options(custom_options={})
       custom_options ||= {}

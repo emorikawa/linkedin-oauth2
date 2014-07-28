@@ -24,7 +24,30 @@ Key) and a **Client Secret** (aka Secret Key)
 
 **Step 3:** Use an **Access Token** to query the API.
 
-### Getting An Access Token
+### Step 1: Register your Application
+
+You first need to create and register an application with LinkedIn
+[here](https://www.linkedin.com/secure/developer).
+
+You will not be able to use any part of the API without registering first.
+
+Once you have registered you will need to take note of a few key items on
+your Application Details page.
+
+1. **API Key** - We refer to this as your client id or `client_id`
+1. **Secret Key** - We refer to this as your client secret or
+   `client_secret`
+1. **Default Scope** - This is the set of permissions you request from
+   users when they connect to your app. If you want to set this on a
+   request-by-request basis, you can use the `scope` option with the
+   `auth_code_url` method.
+1. **OAuth 2.0 Redirect URLs** - For security reasons, the url you enter
+   in this box must exactly match the `redirect_uri` you use in this gem.
+
+You do NOT need **OAuth User Token** nor **OAuth User Secret**. That is
+for OAuth 1.0. This gem is for OAuth 2.0.
+
+### Step 2: Getting An Access Token
 
 All LinkedIn API requests must be made in the context of an access token.
 The access token encodes what LinkedIn information your AwesomeApp® can
@@ -40,6 +63,8 @@ There are a few different ways to get an access token from a user.
    below.
 
 Here is how to get an access token using this linkedin-oauth2 gem:
+
+**Step 2A: Configuration**
 
 You will need to configure the following items:
 
@@ -64,21 +89,29 @@ LinkedIn.configure do |config|
   # `auth_code_url` instead.
   config.redirect_uri  = "https://getawesomeapp.io/linkedin/oauth2"
 end
+```
 
+**Step 2B: Get Auth Code URL**
+
+```ruby
 @oauth = LinkedIn::OAuth2.new
 
 url = @oauth.auth_code_url
 ```
 
-You must now load that url in a browser. It will pull up the LinkedIn
-sign in box. Once LinkedIn user credentials are entered, the box will
-close and redirect to your redirect url, passing along with it the
-**OAuth code** as a GET param.
+**Step 2C: User Sign In**
+
+You must now load url from Step 2B in a browser. It will pull up the
+LinkedIn sign in box. Once LinkedIn user credentials are entered, the box
+will close and redirect to your redirect url, passing along with it the
+**OAuth code** as the `code` GET param.
 
 Be sure to read the extended documentation around the LinkedIn::OAuth2
 module for more options you can set.
 
 **Note:** The **OAuth code** only lasts for ~20 seconds!
+
+**Step 2D: Get Access Token**
 
 ```ruby
 code = "THE_OAUTH_CODE_LINKEDIN_GAVE_ME"
