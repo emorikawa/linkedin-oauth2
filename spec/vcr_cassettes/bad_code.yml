@@ -1,0 +1,78 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://www.linkedin.com/uas/oauth2/accessToken
+    body:
+      encoding: UTF-8
+      string: client_id=dummy_client_id&client_secret=dummy_client_secret&code=dummy_code&grant_type=authorization_code&raise_errors=true&redirect_uri=http%3A%2F%2Flvh.me
+    headers:
+      User-Agent:
+      - Faraday v0.9.0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      P3p:
+      - CP="CAO CUR ADM DEV PSA PSD OUR"
+      Vary:
+      - Accept-Encoding
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '123'
+      Date:
+      - Mon, 28 Jul 2014 20:09:19 GMT
+      X-Fs-Uuid:
+      - d145694c622b851310e02438502b0000
+      X-Li-Uuid:
+      - 0UVpTGIrhRMQ4CQ4UCsAAA==
+      X-Li-Fabric:
+      - prod-lva1
+      Strict-Transport-Security:
+      - max-age=0
+      Set-Cookie:
+      - _lipt=deleteMe; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/
+      - bcookie="v=2&3a6e79bd-90b4-4cef-8b9f-32bd121894e8"; domain=.linkedin.com;
+        Path=/; Expires=Thu, 28-Jul-2016 07:46:51 GMT
+      - bscookie="v=1&2014072820091925cfb8c0-d9ff-479c-8970-8aa4dcf8298cAQFUX3xd9U2L1-Mv54CMWscU36a3X_pG";
+        domain=.www.linkedin.com; Path=/; Secure; Expires=Thu, 28-Jul-2016 07:46:51
+        GMT; HttpOnly
+      - lang="v=2&lang=en-us"; Version=1; Domain=linkedin.com; Path=/
+      - leo_auth_token="GST:92YPQhDW9NmnXowe1WvhwcDPPEM5fqps9pHprtwDFgru1xyza0O_Dh:1406578159:7dd7736ddd78a49fb9881d310bbd5056b59c5ba2";
+        Version=1; Max-Age=1799; Expires=Mon, 28-Jul-2014 20:39:18 GMT; Path=/
+      - s_leo_auth_token="delete me"; Version=1; Max-Age=0; Expires=Thu, 01-Jan-1970
+        00:00:10 GMT; Path=/
+      - sl="delete me"; Version=1; Domain=.www.linkedin.com; Max-Age=0; Expires=Thu,
+        01-Jan-1970 00:00:10 GMT; Path=/
+      - sl="delete me"; Version=1; Max-Age=0; Expires=Thu, 01-Jan-1970 00:00:10 GMT;
+        Path=/
+      - visit="v=1&G"; Version=1; Max-Age=63072000; Expires=Wed, 27-Jul-2016 20:09:19
+        GMT; Path=/
+      Pragma:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Cache-Control:
+      - no-cache, no-store
+      Connection:
+      - keep-alive
+      X-Li-Pop:
+      - prod-lva1
+    body:
+      encoding: UTF-8
+      string: '{"error":"invalid_request","error_description":"missing required parameters, includes an invalid parameter value, parameter more than once. : code"}'
+    http_version: 
+  recorded_at: Mon, 28 Jul 2014 20:09:19 GMT
+recorded_with: VCR 2.9.2

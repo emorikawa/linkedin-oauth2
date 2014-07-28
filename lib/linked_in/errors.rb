@@ -1,5 +1,15 @@
 module LinkedIn
+
+  # Raised when we know requests will be malformed
   class InvalidRequest < StandardError; end
+
+  # Raised when LinkedIn returns a non 400+ status code during an OAuth
+  # request.
+  class OAuthError < OAuth2::Error; end
+
+  # Raised when LinkedIn returns a non 400+ status code during an API
+  # request
+  class APIError < OAuth2::Error; end
 
   module ErrorMessages
     class << self
@@ -20,19 +30,4 @@ module LinkedIn
 
     @redirect_uri_mismatch = "Your redirect_uri must be exactly the same as the one used to generated your auth code url"
   end
-
-  # class LinkedInError < StandardError
-  #   attr_reader :data
-  #   def initialize(data)
-  #     @data = data
-  #     super
-  #   end
-  # end
-
-  # class GeneralError        < LinkedInError; end
-  # class NotFoundError       < StandardError; end
-  # class UnavailableError    < StandardError; end
-  # class AccessDeniedError   < LinkedInError; end
-  # class UnauthorizedError   < LinkedInError; end
-  # class InformLinkedInError < StandardError; end
 end

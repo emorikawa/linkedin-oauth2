@@ -83,6 +83,8 @@ module LinkedIn
       token_obj = self.auth_code.get_token(code, options)
       self.access_token = token_obj
       return token_obj.token
+    rescue ::OAuth2::Error => e
+      raise OAuthError.new(e.response)
     end
 
     private ##############################################################

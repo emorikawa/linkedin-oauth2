@@ -1,0 +1,81 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://www.linkedin.com/uas/oauth2/accessToken
+    body:
+      encoding: UTF-8
+      string: client_id=dummy_client_id&client_secret=dummy_client_secret&code=dummy_code&grant_type=authorization_code&raise_errors=true&redirect_uri=http%3A%2F%2Flvh.me%3A5000
+    headers:
+      User-Agent:
+      - Faraday v0.9.0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 503
+      message: Service Unavailable
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      P3p:
+      - CP="CAO CUR ADM DEV PSA PSD OUR"
+      Vary:
+      - Accept-Encoding
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '256'
+      Date:
+      - Mon, 28 Jul 2014 19:46:14 GMT
+      X-Fs-Uuid:
+      - f71d37c01f2a85131090dc44772b0000
+      X-Li-Uuid:
+      - 9x03wB8qhRMQkNxEdysAAA==
+      X-Li-Fabric:
+      - prod-lva1
+      Strict-Transport-Security:
+      - max-age=0
+      Set-Cookie:
+      - _lipt=deleteMe; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/
+      - bcookie="v=2&0cb66f5b-7ce0-457a-8e0a-638e264732b7"; domain=.linkedin.com;
+        Path=/; Expires=Thu, 28-Jul-2016 07:23:46 GMT
+      - bscookie="v=1&20140728194614d20d182b-3a83-4376-8b74-b7f4885e8879AQFLtfYKPKiitdeuTzcDZKWht11C_LVI";
+        domain=.www.linkedin.com; Path=/; Secure; Expires=Thu, 28-Jul-2016 07:23:46
+        GMT; HttpOnly
+      - lang="v=2&lang=en-us"; Version=1; Domain=linkedin.com; Path=/
+      - leo_auth_token="GST:U3omQPgMS94VLL_AjnNBZYdBdQSyLKIIDAgCbqgVALFy5Ac2NEBMQw:1406576774:cf8c6b746690e7532c01fd3d44c6b73ec6c59f62";
+        Version=1; Max-Age=1799; Expires=Mon, 28-Jul-2014 20:16:13 GMT; Path=/
+      - lidc="b=VB49:g=88:u=1:i=1406576774:t=1406663174:s=711269819"; Expires=Tue,
+        29 Jul 2014 19:46:14 GMT; domain=.linkedin.com; Path=/
+      - s_leo_auth_token="delete me"; Version=1; Max-Age=0; Expires=Thu, 01-Jan-1970
+        00:00:10 GMT; Path=/
+      - sl="delete me"; Version=1; Domain=.www.linkedin.com; Max-Age=0; Expires=Thu,
+        01-Jan-1970 00:00:10 GMT; Path=/
+      - sl="delete me"; Version=1; Max-Age=0; Expires=Thu, 01-Jan-1970 00:00:10 GMT;
+        Path=/
+      - visit="v=1&G"; Version=1; Max-Age=63072000; Expires=Wed, 27-Jul-2016 19:46:14
+        GMT; Path=/
+      Pragma:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Cache-Control:
+      - no-cache, no-store
+      Connection:
+      - keep-alive
+      X-Li-Pop:
+      - prod-lva1
+    body:
+      encoding: UTF-8
+      string: '{"error":"temporarily_unavailable","error_description":"the authorization server is currently unable to handle the request : RestException{_response=RestResponse[headers={X-LinkedIn-Error-Response=true, Content-Length=6894, X-Restli-Protocol-Version=1.0.0, Server=Jetty(8.1.8.v20121106)},status=404,entityLength=6894]}
+        "}'
+    http_version: 
+  recorded_at: Mon, 28 Jul 2014 19:46:14 GMT
+recorded_with: VCR 2.9.2

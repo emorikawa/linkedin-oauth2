@@ -17,18 +17,21 @@ describe "OAuth2 Access Token" do
 
   shared_examples "Success Access Token Fetch" do |*args|
     it "Returns an access token string" do
-      expect(subject.get_access_token(*args)).to be_kind_of String
+      VCR.use_cassette("access token success") do
+        expect(subject.get_access_token(*args)).to be_kind_of String
+      end
     end
 
     it "Sets the AcessToken object" do
-      subject.get_access_token(*args)
-      expect(subject.access_token).to be_kind_of OAuth2::AccessToken
+      VCR.use_cassette("access token success") do
+        subject.get_access_token(*args)
+        expect(subject.access_token).to be_kind_of OAuth2::AccessToken
+      end
     end
   end
 
   shared_examples "Raises InvalidRequest" do |*args|
-
-    it "Raises an error" do
+    it "Raises InvalidRequest" do
       expect{subject.get_access_token(*args)}.to raise_error(LinkedIn::InvalidRequest, msg)
     end
 
@@ -66,21 +69,33 @@ describe "OAuth2 Access Token" do
   end
 
   context "When redirect_uri was previously set by auth_code_url" do
+    before(:example) do
+      LinkedIn.configure { |config| config.redirect_uri = nil }
+      subject.auth_code_url(redirect_uri: redirect_uri)
+    end
+    include_examples "Success Access Token Fetch", code
   end
 
   context "When redirect_uri does not match previous setting" do
+    let(:msg) {LinkedIn::ErrorMessages.redirect_uri_mismatch}
+    include_examples "Raises InvalidRequest", code, {redirect_uri: "different"}
   end
 
-  context "When an an error is raised" do
-    it "raises a response error" do
+  context "When the service is unavailable" do
+    let(:msg) { /temporarily_unavailable/ }
+    it "raises an OAuthError" do
+      VCR.use_cassette("unavailable") do
+        expect {subject.get_access_token(code)}.to raise_error(LinkedIn::OAuthError, msg)
+      end
     end
   end
 
-  context "When an an error is raised and raised_errors is false" do
-    it "returns without raising an error" do
-    end
-
-    it "sets the error attribute" do
+  context "When the request is invalid" do
+    let(:msg) { /invalid_request/ }
+    it "raises an OAuthError" do
+      VCR.use_cassette("bad code") do
+        expect {subject.get_access_token(code)}.to raise_error(LinkedIn::OAuthError, msg)
+      end
     end
   end
 end
