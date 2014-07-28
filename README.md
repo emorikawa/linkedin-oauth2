@@ -41,6 +41,16 @@ There are a few different ways to get an access token from a user.
 
 Here is how to get an access token using this linkedin-oauth2 gem:
 
+You will need to configure the following items:
+
+1. Your **client id** (aka API Key)
+1. Your **client secret** (aka Secret Key)
+1. Your **redirect uri**. On LinkedIn's website you must input a list of
+   valid redirect URIs. If you use the same one each time, you can set it
+   in the `LinkedIn.configure` block. If your redirect uris change
+   depending on business logic, you can pass it into the `auth_code_url`
+   method.
+
 ```ruby
 # It's best practice to keep secret credentials out of source code.
 # You can, of course, hardcode dev keys or directly pass them in as the
@@ -48,16 +58,21 @@ Here is how to get an access token using this linkedin-oauth2 gem:
 LinkedIn.configure do |config|
   config.client_id     = ENV["LINKEDIN_CLIENT_ID"]
   config.client_secret = ENV["LINKEDIN_CLIENT_SECRET"]
+
+  # This must exactly match the redirect URI you set on your application's
+  # settings page. If your redirect_uri is dynamic, pass it into
+  # `auth_code_url` instead.
+  config.redirect_uri  = "https://getawesomeapp.io/linkedin/oauth2"
 end
 
 @oauth = LinkedIn::OAuth2.new
 
-url = @oauth.url_for_oauth_code
+url = @oauth.auth_code_url
 ```
 
 You must now load that url in a browser. It will pull up the LinkedIn
 sign in box. Once LinkedIn user credentials are entered, the box will
-close and redirect to your callback url, passing along with it the
+close and redirect to your redirect url, passing along with it the
 **OAuth code** as a GET param.
 
 Be sure to read the extended documentation around the LinkedIn::OAuth2
@@ -72,6 +87,8 @@ access_token = @oauth.get_access_token(code)
 ```
 
 Now that you have an access token, you can use it to query the API.
+
+The `LinkedIn::OAuth2` inherits from [intreda/oauth2](https://github.com/intridea/oauth2)'s `OAuth2::Client` class. See that gem's [documentation](https://github.com/intridea/oauth2/blob/master/lib/oauth2/client.rb) for more usage examples.
 
 ### Using LinkedIn's API
 

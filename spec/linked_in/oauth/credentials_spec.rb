@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe LinkedIn::OAuth2 do
   let(:site)          { LinkedIn.config.site }
@@ -51,12 +51,25 @@ describe LinkedIn::OAuth2 do
 
     include_examples "verify client"
 
+    let(:options) do
+      return {raise_errors: false,
+              new_opt: "custom option"}
+    end
+
     context "When custom options are passed in as first arg" do
       subject do
         LinkedIn::OAuth2.new(options)
       end
       include_examples "options take"
     end
+
+    context "When custom options are passed in" do
+      subject do
+        LinkedIn::OAuth2.new(client_id, client_secret, options)
+      end
+      include_examples "options take"
+    end
+
   end
 
   context "When client credentials do not exist" do
@@ -70,7 +83,7 @@ describe LinkedIn::OAuth2 do
     end
 
     it "raises an error" do
-      expect { LinkedIn::OAuth2.new }.to raise_error(LinkedIn::Errors::GeneralError, err_msg)
+      expect { LinkedIn::OAuth2.new }.to raise_error(LinkedIn::OAuthError, err_msg)
     end
   end
 
@@ -78,18 +91,6 @@ describe LinkedIn::OAuth2 do
     subject { LinkedIn::OAuth2.new(client_id, client_secret) }
 
     include_examples "verify client"
-  end
-
-  let(:options) do
-    return {raise_errors: false,
-            new_opt: "custom option"}
-  end
-
-  context "When custom options are passed in" do
-    subject do
-      LinkedIn::OAuth2.new(client_id, client_secret, options)
-    end
-    include_examples "options take"
   end
 
 end
