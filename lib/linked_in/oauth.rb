@@ -114,13 +114,13 @@ module LinkedIn
     end
 
     def redirect_uri_error
-      msg = "You must provide a redirect_uri to get your auth_code_uri. Set it in LinkedIn.configure or pass it in as the redirect_uri option. It must exactly match the redirect_uri you set on your application's settings page on LinkedIn's website."
-      LinkedIn::OAuthError.new(msg)
+      msg = LinkedIn::ErrorMessages.redirect_uri
+      LinkedIn::InvalidRequest.new(msg)
     end
 
     def credential_error
-      msg = "Client credentials do not exist. Please either pass your client_id and client_secret to the LinkedIn::Oauth.new constructor or set them via LinkedIn.configure"
-      LinkedIn::OAuthError.new(msg)
+      msg = LinkedIn::ErrorMessages.credentials_missing
+      LinkedIn::InvalidRequest.new(msg)
     end
   end
 end

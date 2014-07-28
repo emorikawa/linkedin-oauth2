@@ -73,7 +73,7 @@ describe LinkedIn::OAuth2 do
   end
 
   context "When client credentials do not exist" do
-    let(:err_msg) {"Client credentials do not exist. Please either pass your client_id and client_secret to the LinkedIn::Oauth.new constructor or set them via LinkedIn.configure"}
+    let(:err_msg) { LinkedIn::ErrorMessages.credentials_missing }
 
     before(:example) do
       LinkedIn.configure do |config|
@@ -83,7 +83,7 @@ describe LinkedIn::OAuth2 do
     end
 
     it "raises an error" do
-      expect { LinkedIn::OAuth2.new }.to raise_error(LinkedIn::OAuthError, err_msg)
+      expect { LinkedIn::OAuth2.new }.to raise_error(LinkedIn::InvalidRequest, err_msg)
     end
   end
 

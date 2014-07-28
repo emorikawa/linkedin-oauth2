@@ -21,10 +21,10 @@ describe "OAuth2 Auth Code" do
       LinkedIn.configure { |config| config.redirect_uri = nil }
     end
 
-    let(:err_msg) {"You must provide a redirect_uri to get your auth_code_uri. Set it in LinkedIn.configure or pass it in as the redirect_uri option. It must exactly match the redirect_uri you set on your application's settings page on LinkedIn's website."}
+    let(:err_msg) { LinkedIn::ErrorMessages.redirect_uri }
 
     it "Throws an error" do
-      expect {subject.auth_code_url}.to raise_error(LinkedIn::OAuthError, err_msg)
+      expect {subject.auth_code_url}.to raise_error(LinkedIn::InvalidRequest, err_msg)
     end
   end
 
