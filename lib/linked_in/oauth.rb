@@ -70,15 +70,26 @@ module LinkedIn
 
     def default_auth_code_url_options(custom_options={})
       custom_options ||= {}
-      options = {}
+      options = {raise_errors: true}
+
       if not LinkedIn.config.redirect_uri.nil?
         options[:redirect_uri] = LinkedIn.config.redirect_uri
       end
       if not LinkedIn.config.scope.nil?
         options[:scope] = LinkedIn.config.scope
       end
-      options[:raise_errors] = true
-      return options.merge custom_options
+
+      options = options.merge custom_options
+
+      if options[:state].nil?
+        options[:state] = generate_csrf_token
+      end
+
+      return options
+    end
+
+    def generate_csrf_token
+      SecureRandom.base64(32)
     end
 
     def check_auth_code_url!(options={})
