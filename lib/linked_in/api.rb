@@ -7,7 +7,9 @@ module LinkedIn
       verify_access_token!
     end
 
+
     private ##############################################################
+
 
     def verify_access_token!
       if self.access_token.nil?

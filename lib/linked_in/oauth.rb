@@ -125,9 +125,11 @@ module LinkedIn
         check_access_code_url!(options)
       end
 
-      token_obj = self.auth_code.get_token(code, options)
-      self.access_token = token_obj
-      return token_obj.token
+      tok = self.auth_code.get_token(code, options)
+      self.access_token = LinkedIn::AccessToken.new(tok.token,
+                                                    tok.expires_in,
+                                                    tok.expires_at)
+      return self.access_token
     rescue ::OAuth2::Error => e
       raise OAuthError.new(e.response)
     end

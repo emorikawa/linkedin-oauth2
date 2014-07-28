@@ -3,6 +3,7 @@ require "linked_in/version"
 require "linked_in/configuration"
 require "linked_in/errors"
 require "linked_in/oauth"
+require "linked_in/access_token"
 require "linked_in/api"
 
 module LinkedIn

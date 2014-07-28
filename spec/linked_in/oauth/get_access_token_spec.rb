@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "OAuth2 Access Token" do
+describe "Get OAuth2 Access Token" do
   code = "dummy_code"
   client_id = "dummy_client_id"
   client_secret = "dummy_client_secret"
@@ -16,16 +16,23 @@ describe "OAuth2 Access Token" do
   subject { LinkedIn::OAuth2.new }
 
   shared_examples "Success Access Token Fetch" do |*args|
-    it "Returns an access token string" do
+    it "Returns an access token object" do
       VCR.use_cassette("access token success") do
-        expect(subject.get_access_token(*args)).to be_kind_of String
+        expect(subject.get_access_token(*args)).to be_kind_of LinkedIn::AccessToken
       end
     end
 
     it "Sets the AcessToken object" do
       VCR.use_cassette("access token success") do
         subject.get_access_token(*args)
-        expect(subject.access_token).to be_kind_of OAuth2::AccessToken
+        expect(subject.access_token).to be_kind_of LinkedIn::AccessToken
+      end
+    end
+
+    it "Generated an access token string" do
+      VCR.use_cassette("access token success") do
+        subject.get_access_token(*args)
+        expect(subject.access_token.token).to be_kind_of String
       end
     end
   end
