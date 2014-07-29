@@ -83,5 +83,11 @@ module LinkedIn
         path += "/~"
       end
     end
+
+    def picture_urls_path(options)
+      path = person_path(options)
+      path += "/picture-urls"
+    end
+
   end
 end

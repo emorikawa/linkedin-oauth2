@@ -8,6 +8,9 @@ module LinkedIn
       verify_access_token!(access_token)
       @access_token = access_token
 
+      @connection = LinkedIn::Connection.new params: default_params,
+                                             headers: default_headers
+
       initialize_endpoints
     end
 
@@ -20,8 +23,18 @@ module LinkedIn
     private ##############################################################
 
 
+    def default_params
+      # https://developer.linkedin.com/documents/authentication
+      return {oauth2_access_token: @access_token.token}
+    end
+
+    def default_headers
+      # https://developer.linkedin.com/documents/api-requests-json
+      return {"x-li-format" => "json"}
+    end
+
     def initialize_endpoints
-      @people = LinkedIn::People.new
+      @people = LinkedIn::People.new(@connection)
     end
 
     def verify_access_token!(access_token)

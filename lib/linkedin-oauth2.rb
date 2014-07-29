@@ -8,15 +8,16 @@ require "linked_in/configuration"
 # LinkedIn::OAuth2 inherits from OAuth2::Client
 require "linked_in/oauth2"
 
-# Wraps a LinkedIn-specifc API connection
-# LinkedIn::Connection inherits from Faraday::Connection
-require "faraday"
-require "linked_in/connection"
-
 # Coerces LinkedIn JSON to a nice Ruby hash
 # LinkedIn::Mash inherits from Hashie::Mash
 require "hashie"
 require "linked_in/mash"
+
+# Wraps a LinkedIn-specifc API connection
+# LinkedIn::Connection inherits from Faraday::Connection
+require "faraday"
+require "linked_in/mash_middleware"
+require "linked_in/connection"
 
 # Data object to wrap API access token
 require "linked_in/access_token"

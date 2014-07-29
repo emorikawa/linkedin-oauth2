@@ -3,16 +3,29 @@ module LinkedIn
   # builder methods across all endpoints.
   class APIResource
 
-    attr_reader :connection
-
-    def initialize
-      @connection = LinkedIn::Connection.new
+    def initialize(connection)
+      @connection = connection
     end
 
     protected ############################################################
 
     def simple_query(path, options={})
-      fields = options.delete(:fields) || LinkedIn.config.default_profile_fields
+      url, params, headers = prepare_connection_params(path, options)
+
+      response = @connection.get(url, params, headers)
+
+      p "Simple query"
+      p response.body.class
+      return response.body
+    end
+
+    private ##############################################################
+
+    def prepare_connection_params(path, options)
+      path = @connection.path_prefix + path
+
+      default = LinkedIn.config.default_profile_fields
+      fields = options.delete(:fields) || default
 
       if options.delete(:public)
         path +=":public"
@@ -22,12 +35,8 @@ module LinkedIn
 
       headers = options.delete(:headers) || {}
 
-      response = @connection.get(path, params, headers)
-
-      Mash.from_json(response)
+      return [path, options, headers]
     end
-
-    private ##############################################################
 
     def build_fields_params(fields)
       if fields.is_a?(Hash) && !fields.empty?

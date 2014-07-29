@@ -30,11 +30,6 @@ module LinkedIn
         end
       end
 
-      def picture_urls_path(options)
-        path = person_path(options)
-        path += "/picture-urls"
-      end
-
       def jobs_path(options)
         path = "/jobs"
         if id = options.delete(:id)
