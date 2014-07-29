@@ -1,0 +1,60 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.linkedin.com/v1/people::(url=self,url=http:%2F%2Fwww.linkedin.com%2Fin%2Fevanmorikawa)?oauth2_access_token=dummy_access_token&secure-urls=true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Li-Format:
+      - json
+      User-Agent:
+      - Faraday v0.9.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      X-Li-Request-Id:
+      - ODTW5Z6VNV
+      X-Li-Uuid:
+      - USxBal+DhRMQpnnYsSoAAA==
+      Date:
+      - Tue, 29 Jul 2014 23:01:44 GMT
+      Vary:
+      - "*"
+      X-Li-Format:
+      - json
+      Content-Type:
+      - application/json;charset=UTF-8
+      X-Li-Fabric:
+      - PROD-ELA4
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Li-Pop:
+      - PROD-ELA4
+      Set-Cookie:
+      - lidc="b=LB98:g=95:u=1:i=1406674904:t=1406761304:s=2857038231"; Expires=Wed,
+        30 Jul 2014 23:01:44 GMT; domain=.linkedin.com; Path=/
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "errorCode": 0,
+          "message": "Invalid access token.",
+          "requestId": "ODTW5Z6VNV",
+          "status": 401,
+          "timestamp": 1406674904463
+        }
+    http_version: 
+  recorded_at: Tue, 29 Jul 2014 23:01:44 GMT
+recorded_with: VCR 2.9.2

@@ -1,94 +1,173 @@
 describe LinkedIn::People do
-
-  let(:uid) {"4uXXqUsRMM"}
-  let(:access_token) {"1234abc"}
+  let(:uid) {"SDmkCxL2ya"}
+  let(:url) {"http://www.linkedin.com/in/evanmorikawa"}
+  let(:access_token) {"dummy_access_token"}
 
   let(:api) {LinkedIn::API.new(access_token)}
 
-  it "returns a LinkedIn::Mash" do
-  end
-
-  it "sets the first-name" do
+  def verify(result)
+    expect(result).to be_kind_of LinkedIn::Mash
   end
 
   ###### PROFILES
   # Self
-  result = api.profile
+  it "grabs your own profile" do
+    VCR.use_cassette("people profile own") do
+      result = api.profile
+      verify result
+      expect(result["firstName"]).to be_kind_of String
+    end
+  end
 
   # Secure
-  result = api.profile(secure: true)
-  result = api.profile("secure-urls" => true)
+  it "accepts secure-urls param via secure option" do
+    VCR.use_cassette("people profile own secure") do
+      verify api.profile(secure: true)
+    end
+  end
 
   # Language
-  result = api.profile(lang: "es")
-  result = api.profile(lang: "bad_lang")
+  it "gets profiles in a different language" do
+    VCR.use_cassette("people profile lang spanish") do
+      verify api.profile(lang: "es")
+    end
+  end
 
   # Others
-  result = api.profile(id: uid)
-  result = api.profile(url: url)
-  result = api.profile(uid)
-  result = api.profile(url)
+  it "gets another users profile by user id" do
+    VCR.use_cassette("people profile other uid") do
+      result = api.profile(id: uid)
+      verify result
+      expect(result["firstName"]).to be_kind_of String
+    end
+  end
+  it "gets another users profile by url" do
+    VCR.use_cassette("people profile other url") do
+      result = api.profile(url: url)
+      verify result
+      expect(result["firstName"]).to be_kind_of String
+    end
+  end
+  it "gets another users profile by user id" do
+    VCR.use_cassette("people profile other uid") do
+      verify api.profile(uid)
+    end
+  end
+  it "gets another users profile by url" do
+    VCR.use_cassette("people profile other url") do
+      verify api.profile(url)
+    end
+  end
 
   # Errors
-  result = api.profile("Bad input")
-  result = api.profile(email: "email@email.com")
+  it "errors on bad input" do
+    expect{api.profile("Bad input")}.to raise_error
+  end
+  it "errors on email deprecation" do
+    msg = LinkedIn::ErrorMessages.deprecated
+    expect{api.profile(email: "email@email.com")}.to raise_error(LinkedIn::Deprecated, msg)
+  end
 
   # Fields
-  result = api.profile(fields: ["id","industry"])
-  result = api.profile(fields: ["id",{"positions" => ["title"]}])
+  it "grabs certain profile fields" do
+    VCR.use_cassette("people profile fields simple") do
+      result = api.profile(fields: ["id","industry"])
+      verify result
+      expect(result["industry"]).to be_kind_of String
+    end
+  end
+  it "grabs more complex profile fields" do
+    VCR.use_cassette("people profile fields complex") do
+      result = api.profile(fields: ["id",{"positions" => ["title"]}])
+      verify result
+      expect(result["positions"]["values"][0]["title"]).to be_kind_of String
+    end
+  end
 
   # Multiple people
-  result = api.profile(ids: ["self", uid])
-  result = api.profile(ids: ["self", uid], urls: [url])
-  result = api.profile(ids: ["self", uid], url: url)
-  result = api.profile(ids: ["self", uid], fields: ["id", "industry"])
+  it "grabs multiple people by uids" do
+    VCR.use_cassette("people profile multiple uids") do
+      result = api.profile(ids: ["self", uid])
+      verify result
+      expect(result["values"].length).to eq 2
+    end
+  end
+  it "grabs multiple people by urls" do
+    VCR.use_cassette("people profile multiple urls") do
+      result = api.profile(urls: ["self", url])
+      verify result
+      expect(result["values"].length).to eq 2
+    end
+  end
+  it "grabs multiple people by uids and urls" do
+    VCR.use_cassette("people profile multiple uids and urls") do
+      result = api.profile(ids: ["self", uid], urls: [url])
+      verify result
+      expect(result["values"].length).to eq 3
+    end
+  end
+  it "grabs certain fields for multiple people" do
+    VCR.use_cassette("people profile multiple fields") do
+      result = api.profile(ids: ["self", uid], fields: ["id", "industry"])
+      verify result
+      expect(result["values"][0]["industry"]).to be_kind_of String
+    end
+  end
 
   ###### CONNECTIONS
-  result = api.connections
-  result = api.connections(id: uid)
-  result = api.connections(fields: ["id", "industry"])
-  result = api.connections(ids: ["self", uid])
+  it "grabs your own connections" do
+    VCR.use_cassette("people profile connections self") do
+      result = api.connections
+      verify result
+      expect(result["values"].length).to eq 3
+    end
+  end
+  it "grabs the connections of others" do
+    VCR.use_cassette("people profile connections other") do
+      result = api.connections(id: uid)
+      verify result
+      expect(result["values"].length).to eq 3
+    end
+  end
+  it "grabs certain fields for those connections" do
+    VCR.use_cassette("people profile connections fields") do
+      result = api.connections(fields: ["id", "industry"])
+      verify result
+      expect(result["values"].length).to eq 4
+      expect(result["values"][0]["industry"]).to be_kind_of String
+    end
+  end
 
-  result = api.new_connections(since_str)
-  result = api.new_connections(since_num)
-  result = api.new_connections(since_time)
-  result = api.new_connections(since, id: uid)
-  result = api.new_connections(since, fields: ["id", "industry"])
-  result = api.new_connections(since, ids: ["self", uid])
-
-#   it "" do
-#     # https://api.linkedin.com/v1/people/~
-#     VCR.use_cassette("people own account") do
-#       api.profile.should be_an_instance_of(LinkedIn::Mash)
-#     end
-#   end
-#
-#   it "should be able to view public profiles" do
-#     # https://api.linkedin.com/v1/people/id=abcdefg
-#     VCR.use_cassette("people other account") do
-#       api.profile(id: "4uXXqUsRMM").should be_an_instance_of(LinkedIn::Mash)
-#     end
-#   end
-#
-#   it "should be able to view the picture urls" do
-#     # stub_request(:get, "https://api.linkedin.com/v1/people/~/picture-urls::(original)").to_return(:body => "{}")
-#     VCR.use_cassette("people picture url") do
-#       api.picture_urls.should be_an_instance_of(LinkedIn::Mash)
-#     end
-#   end
-#
-#   it "should be able to view connections" do
-#     # stub_request(:get, "https://api.linkedin.com/v1/people/~/connections").to_return(:body => "{}")
-#     VCR.use_cassette("people connections") do
-#       api.connections.should be_an_instance_of(LinkedIn::Mash)
-#     end
-#   end
-#
-#   it "should be able to view new connections" do
-#     modified_since = Time.new(2014,1,1).to_i * 1000
-#     # stub_request(:get, "https://api.linkedin.com/v1/people/~/connections?modified=new&modified-since=#{modified_since}").to_return(:body => "{}")
-#     VCR.use_cassette("people new connections") do
-#       api.new_connections(modified_since).should be_an_instance_of(LinkedIn::Mash)
-#     end
-#   end
+  it "grabs new connections since a string date" do
+    VCR.use_cassette("people profile new connections self") do
+      result = api.new_connections("2014-01-01")
+      verify result
+      expect(result["values"].length).to eq 2
+    end
+  end
+  it "grabs new connections since a numeric date" do
+    VCR.use_cassette("people profile new connections self") do
+      verify api.new_connections(1388552400000)
+    end
+  end
+  it "grabs new connections since a Time.new object" do
+    VCR.use_cassette("people profile new connections self") do
+      verify api.new_connections(Time.new(2014,1,1))
+    end
+  end
+  it "grabs new connections for another user" do
+    VCR.use_cassette("people profile new connections other") do
+      result = api.new_connections("2014-01-01", id: uid)
+      verify result
+      expect(result["values"].length).to eq 2
+    end
+  end
+  it "grabs certain fields of new connections" do
+    VCR.use_cassette("people profile new connections fields") do
+      result = api.new_connections("2014-01-01", fields: ["id", "industry"])
+      verify result
+      expect(result["values"].length).to eq 3
+      expect(result["values"][0]["industry"]).to be_kind_of String
+    end
+  end
 end

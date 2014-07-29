@@ -37,6 +37,8 @@ module LinkedIn
 
       headers = options.delete(:headers) || {}
 
+      options[:"secure-urls"] = true unless options[:secure] == false
+
       return [path, options, headers]
     end
 

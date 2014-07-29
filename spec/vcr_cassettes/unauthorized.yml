@@ -1,0 +1,61 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.linkedin.com/v1/people/~/connections:(educations,positions)
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      X-Li-Request-Id:
+      - XEHXNPV09V
+      X-Li-Uuid:
+      - ytEZqdtO6/5bKFmVDMO9+Q==
+      Www-Authenticate:
+      - OAuth realm="https://api.linkedin.com"
+      Date:
+      - Tue, 29 Jul 2014 17:00:08 GMT
+      Vary:
+      - "*"
+      X-Li-Format:
+      - xml
+      Content-Type:
+      - text/xml;charset=UTF-8
+      X-Li-Fabric:
+      - PROD-ELA4
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Li-Pop:
+      - PROD-ELA4
+      Set-Cookie:
+      - lidc="b=LB69:g=100:u=1:i=1406653209:t=1406739609:s=2538332704"; Expires=Wed,
+        30 Jul 2014 17:00:09 GMT; domain=.linkedin.com; Path=/
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <error>
+          <status>401</status>
+          <timestamp>1406653209026</timestamp>
+          <request-id>XEHXNPV09V</request-id>
+          <error-code>0</error-code>
+          <message>Unknown authentication scheme</message>
+        </error>
+    http_version: 
+  recorded_at: Tue, 29 Jul 2014 17:00:08 GMT
+recorded_with: VCR 2.9.2

@@ -16,7 +16,8 @@ module LinkedIn
 
   module ErrorMessages
     class << self
-      attr_reader :redirect_uri,
+      attr_reader :deprecated,
+                  :redirect_uri,
                   :no_auth_code,
                   :no_access_token,
                   :credentials_missing,

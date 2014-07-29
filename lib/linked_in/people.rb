@@ -1,3 +1,4 @@
+require 'time'
 module LinkedIn
   # People APIs
   #
@@ -70,14 +71,15 @@ module LinkedIn
     #
     # @see http://developer.linkedin.com/documents/connections-api
     #
-    # @param [String, FixNum, Time] modified_since timestamp in unix time
+    # @param [String, Fixnum, Time] modified_since timestamp in unix time
     #   miliseconds indicating since when you want to retrieve new
     #   connections
     # @param [Hash] opts profile options
     # @macro profile_options
     # @return [LinkedIn::Mash]
-    def new_connections(modified_since, options={})
-      options.merge!('modified' => 'new', 'modified-since' => modified_since)
+    def new_connections(since, options={})
+      since = parse_modified_since(since)
+      options.merge!('modified' => 'new', 'modified-since' => since)
       path = "#{profile_path(options, false)}/connections"
       simple_query(path, options)
     end
@@ -125,35 +127,69 @@ module LinkedIn
     def profile_path(options={}, allow_multiple=true)
       path = "/people"
 
+      id = options.delete(:id)
+      url = options.delete(:url)
+
       ids = options.delete(:ids)
       urls = options.delete(:urls)
 
-      if id = options.delete(:id)
-        path += "/id=#{id}"
-      elsif url = options.delete(:url)
-        path += "/url=#{CGI.escape(url)}"
+      if options.delete(:email) then raise deprecated end
+
+      if (id or url)
+        path += single_person_path(id, url)
       elsif allow_multiple and (ids or urls)
         path += multiple_people_path(ids, urls)
-      elsif options.delete(:email)
-        # path += "::(#{email})"
-        raise deprecated
       else
         path += "/~"
       end
     end
 
+    def single_person_path(id=nil, url=nil)
+      if id
+        return "/id=#{id}"
+      elsif url
+        return "/url=#{CGI.escape(url)}"
+      else
+        return "/~"
+      end
+    end
+
     # See syntax here: https://developer.linkedin.com/documents/field-selectors
     def multiple_people_path(ids=[], urls=[])
+      if ids.nil? then ids = [] end
+      if urls.nil? then urls = [] end
+
       ids = ids.map do |id|
-        if (id == "self" or id == "~") then "~" else "id=#{id}" end
+        if is_self(id) then "~" else "id=#{id}" end
       end
-      urls = urls.map {|url| "url=#{CGI.escape(url)}"}
+      urls = urls.map do |url|
+        if is_self(url) then "~" else "url=#{CGI.escape(url)}" end
+      end
       return "::(#{(ids+urls).join(",")})"
+    end
+
+    def is_self(str)
+      str == "self" or str == "~"
     end
 
     def picture_urls_path(options)
       path = profile_path(options)
       path += "/picture-urls"
+    end
+
+    # Returns a unix time in miliseconds
+    def parse_modified_since(since)
+      if since.is_a? ::Fixnum
+        if ::Time.at(since).year < 2050
+          # Got passed in as seconds.
+          since = since * 1000
+        end
+      elsif since.is_a? ::String
+        since = ::Time.parse(since).to_i * 1000
+      elsif since.is_a? ::Time
+        since = since.to_i * 1000
+      end
+      return since
     end
 
   end
