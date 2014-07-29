@@ -1,6 +1,9 @@
 # This file is required by all tests
 require 'linkedin-oauth2'
 
+# Stub methods for simple returns. For more complex values, see VCR
+require 'webmock/rspec'
+
 # Record and playback LinkedIn API calls
 require 'vcr'
 VCR.configure do |config|

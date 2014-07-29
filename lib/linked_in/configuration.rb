@@ -22,7 +22,8 @@ module LinkedIn
                   :token_url,
                   :redirect_uri,
                   :authorize_url,
-                  :client_secret
+                  :client_secret,
+                  :default_profile_fields
 
     alias_method :api_key, :client_id
     alias_method :secret_key, :client_secret
@@ -31,6 +32,7 @@ module LinkedIn
       @site = "https://www.linkedin.com"
       @token_url = "/uas/oauth2/accessToken"
       @authorize_url = "/uas/oauth2/authorization"
+      @default_profile_fields = ["educations", "positions"]
     end
   end
 end
