@@ -1,4 +1,4 @@
-describe LinkedIn::APIEndpoints::People do
+describe LinkedIn::People do
   let(:api) {LinkedIn::API.new("stub_access_token")}
 
   it "should be able to view the account profile" do

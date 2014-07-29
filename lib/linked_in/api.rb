@@ -1,20 +1,28 @@
 module LinkedIn
   class API
 
-    include ::LinkedIn::APIEndpoints::PathBuilders
-    include ::LinkedIn::APIEndpoints::People
-
     attr_accessor :access_token
 
     def initialize(access_token=nil)
       access_token = parse_access_token(access_token)
       verify_access_token!(access_token)
       @access_token = access_token
+
+      initialize_endpoints
     end
 
+    extend Forwardable # Composition over inheritance
+    def_delegators :@people, :profile,
+                             :connections,
+                             :picture_urls,
+                             :new_connections
 
     private ##############################################################
 
+
+    def initialize_endpoints
+      @people = LinkedIn::People.new
+    end
 
     def verify_access_token!(access_token)
       if not access_token.is_a? LinkedIn::AccessToken

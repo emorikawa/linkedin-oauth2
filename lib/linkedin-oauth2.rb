@@ -1,12 +1,31 @@
 require "oauth2"
+
+require "linked_in/errors"
 require "linked_in/version"
 require "linked_in/configuration"
-require "linked_in/errors"
-require "linked_in/oauth"
+
+# Responsible for all authentication
+# LinkedIn::OAuth2 inherits from OAuth2::Client
+require "linked_in/oauth2"
+
+# Wraps a LinkedIn-specifc API connection
+# LinkedIn::Connection inherits from Faraday::Connection
+require "faraday"
+require "linked_in/connection"
+
+# Coerces LinkedIn JSON to a nice Ruby hash
+# LinkedIn::Mash inherits from Hashie::Mash
+require "hashie"
+require "linked_in/mash"
+
+# Data object to wrap API access token
 require "linked_in/access_token"
 
-require "linked_in/api_endpoints/people"
-require "linked_in/api_endpoints/path_builders"
+# All of the endpoints
+require "linked_in/api_resource"
+require "linked_in/people"
+
+# The primary API object that makes requests.
 require "linked_in/api"
 
 module LinkedIn

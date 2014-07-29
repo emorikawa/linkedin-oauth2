@@ -20,10 +20,4 @@ describe LinkedIn do
       expect(LinkedIn::API).to be_a Class
     end
   end
-
-  describe LinkedIn::APIEndpoints do
-    it "is a module" do
-      expect(LinkedIn::APIEndpoints).to be_a Module
-    end
-  end
 end

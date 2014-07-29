@@ -16,10 +16,12 @@ module LinkedIn
   # * LinkedIn.config.token_url = "/uas/oauth2/accessToken"
   # * LinkedIn.config.authorize_url = "/uas/oauth2/authorization"
   class Configuration
-    attr_accessor :site,
+    attr_accessor :api,
+                  :site,
                   :scope,
                   :client_id,
                   :token_url,
+                  :api_version,
                   :redirect_uri,
                   :authorize_url,
                   :client_secret,
@@ -29,6 +31,8 @@ module LinkedIn
     alias_method :secret_key, :client_secret
 
     def initialize
+      @api = "https://api.linkedin.com"
+      @api_version = "/v1"
       @site = "https://www.linkedin.com"
       @token_url = "/uas/oauth2/accessToken"
       @authorize_url = "/uas/oauth2/authorization"

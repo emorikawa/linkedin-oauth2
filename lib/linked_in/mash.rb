@@ -1,6 +1,3 @@
-require 'hashie'
-require 'multi_json'
-
 module LinkedIn
   class Mash < ::Hashie::Mash
 

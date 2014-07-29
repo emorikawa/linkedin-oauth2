@@ -11,44 +11,6 @@ module LinkedIn
         end
       end
 
-      def simple_query(path, options={})
-        fields = options.delete(:fields) || LinkedIn.config.default_profile_fields
-
-        if options.delete(:public)
-          path +=":public"
-        elsif fields
-          path +=":(#{build_fields_params(fields)})"
-        end
-
-        headers = options.delete(:headers) || {}
-        params  = to_query(options)
-        path   += "#{path.include?("?") ? "&" : "?"}#{params}" if !params.empty?
-
-        Mash.from_json(get(path, headers))
-      end
-
-      def build_fields_params(fields)
-        if fields.is_a?(Hash) && !fields.empty?
-          fields.map {|index,value| "#{index}:(#{build_fields_params(value)})" }.join(',')
-        elsif fields.respond_to?(:each)
-          fields.map {|field| build_fields_params(field) }.join(',')
-        else
-          fields.to_s.gsub("_", "-")
-        end
-      end
-
-      def person_path(options)
-        path = "/people"
-        if id = options.delete(:id)
-          path += "/id=#{id}"
-        elsif url = options.delete(:url)
-          path += "/url=#{CGI.escape(url)}"
-        elsif email = options.delete(:email)
-          path += "::(#{email})"
-        else
-          path += "/~"
-        end
-      end
 
       def company_path(options)
         path = "/companies"
