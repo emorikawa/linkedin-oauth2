@@ -36,7 +36,6 @@ module LinkedIn
       @site = "https://www.linkedin.com"
       @token_url = "/uas/oauth2/accessToken"
       @authorize_url = "/uas/oauth2/authorization"
-      @default_profile_fields = ["educations", "positions"]
     end
   end
 end

@@ -1,8 +1,13 @@
 # LinkedIn
 
-Oauth 2.0 Ruby wrapper for the [LinkedIn API](http://developer.linkedin.com).
+OAuth 2.0 Ruby wrapper for the [LinkedIn API](http://developer.linkedin.com).
 
-## Installation
+If you are using OAuth 1.0, see the [hexgnu/linkedin](https://github.com/hexgnu/linkedin)
+
+If you are upgrading from the v0.1 version of this gem, see the upgrade
+notes below.
+
+# Installation
 
 In Bundler:
 
@@ -14,7 +19,7 @@ Otherwise:
 
     [sudo|rvm] gem install linkedin-oauth2
 
-## Usage
+# Usage
 
 **Step 1:** [Register](https://www.linkedin.com/secure/developer) your
 application with LinkedIn. They will give you a **Client ID** (aka API
@@ -24,7 +29,7 @@ Key) and a **Client Secret** (aka Secret Key)
 
 **Step 3:** Use an **Access Token** to query the API.
 
-### Step 1: Register your Application
+## Step 1: Register your Application
 
 You first need to create and register an application with LinkedIn
 [here](https://www.linkedin.com/secure/developer).
@@ -47,7 +52,7 @@ your Application Details page.
 You do NOT need **OAuth User Token** nor **OAuth User Secret**. That is
 for OAuth 1.0. This gem is for OAuth 2.0.
 
-### Step 2: Getting An Access Token
+## Step 2: Getting An Access Token
 
 All LinkedIn API requests must be made in the context of an access token.
 The access token encodes what LinkedIn information your AwesomeApp® can
@@ -64,7 +69,7 @@ There are a few different ways to get an access token from a user.
 
 Here is how to get an access token using this linkedin-oauth2 gem:
 
-**Step 2A: Configuration**
+### Step 2A: Configuration
 
 You will need to configure the following items:
 
@@ -91,7 +96,7 @@ LinkedIn.configure do |config|
 end
 ```
 
-**Step 2B: Get Auth Code URL**
+### Step 2B: Get Auth Code URL
 
 ```ruby
 @oauth = LinkedIn::OAuth2.new
@@ -99,7 +104,7 @@ end
 url = @oauth.auth_code_url
 ```
 
-**Step 2C: User Sign In**
+### Step 2C: User Sign In
 
 You must now load url from Step 2B in a browser. It will pull up the
 LinkedIn sign in box. Once LinkedIn user credentials are entered, the box
@@ -111,7 +116,7 @@ module for more options you can set.
 
 **Note:** The **OAuth code** only lasts for ~20 seconds!
 
-**Step 2D: Get Access Token**
+### Step 2D: Get Access Token
 
 ```ruby
 code = "THE_OAUTH_CODE_LINKEDIN_GAVE_ME"
@@ -123,17 +128,99 @@ Now that you have an access token, you can use it to query the API.
 
 The `LinkedIn::OAuth2` inherits from [intreda/oauth2](https://github.com/intridea/oauth2)'s `OAuth2::Client` class. See that gem's [documentation](https://github.com/intridea/oauth2/blob/master/lib/oauth2/client.rb) for more usage examples.
 
-### Using LinkedIn's API
+## Step 3: Using LinkedIn's API
 
 Once you have an access token, you can query LinkedIn's API.
 
+Your access token encodes the permissions you're allowed to have. See Step
+2 and [this LinkedIn document](https://developer.linkedin.com/documents/authentication#granting) for how to change the permissions. See each section's documentation on LinkedIn for more information on what permissions get you access to.
+
+### People
+
+See the Profiles of yourself and other users. See the connections of
+yourslef and other users.
+
+See https://developer.linkedin.com/documents/people
+
 ```ruby
-@api = LinkedIn::API.new(access_token)
-
-person = @api.profile
-
-connections = @api.connections
+api = LinkedIn::API.new(access_token)
 ```
+
+#### Yourself
+
+```ruby
+me = api.profile
+```
+
+#### Others
+
+```ruby
+evan_morikawa = api.profile("SDmkCxL2ya")
+evan_morikawa = api.profile(id: "SDmkCxL2ya")
+evan_morikawa = api.profile(url: "http://www.linkedin.com/in/evanmorikawa")
+```
+
+#### Specific Fields
+
+See [available fields here](https://developer.linkedin.com/documents/profile-fields)
+
+```ruby
+my_name = api.profile(fields: ["first-name", "last-name"])
+my_job_titles = api.profile(fields: ["id", {"positions" => ["title"]}])
+```
+
+#### Multiple People
+
+```ruby
+me_and_others = api.profile(ids: ["self", "SDmkCxL2ya"])
+```
+
+#### Connections
+
+```ruby
+# Takes the same arguments as `LinkedIn::API#profile`
+my_connections = api.connections
+evans_connections = api.connections(id: "SDmkCxL2ya")
+```
+
+#### New Connections
+
+```ruby
+# Takes the same options argument as `LinkedIn::API#connections`
+since = Time.new(2014,1,1)
+my_new_connections = api.connections(since)
+evans_new_connections = api.connections(since, id: "SDmkCxL2ya")
+```
+
+### Groups
+
+Access and interact with LinkedIn Groups
+
+See https://developer.linkedin.com/documents/groups
+
+### Companies
+
+Detailed overviews of Company information
+
+See https://developer.linkedin.com/documents/companies
+
+### Jobs
+
+A search for Jobs on LinkedIn
+
+See https://developer.linkedin.com/documents/jobs
+
+### Share and Social Stream
+
+View and update content on social streams
+
+See https://developer.linkedin.com/documents/share-and-social-stream
+
+### Communications
+
+Invitations and messages between connections apis
+
+See https://developer.linkedin.com/documents/communications
 
 
 

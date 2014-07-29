@@ -1,5 +1,8 @@
 module LinkedIn
 
+  # Raised when users call a deprecated function
+  class Deprecated < StandardError; end
+
   # Raised when we know requests will be malformed
   class InvalidRequest < StandardError; end
 
@@ -19,6 +22,8 @@ module LinkedIn
                   :credentials_missing,
                   :redirect_uri_mismatch
     end
+
+    @deprecated = "This has been deprecated by LinkedIn. Check https://developer.linkedin.com to see the latest available API calls"
 
     @redirect_uri = "You must provide a redirect_uri. Set it in LinkedIn.configure or pass it in as the redirect_uri option. It must exactly match the redirect_uri you set on your application's settings page on LinkedIn's website."
 

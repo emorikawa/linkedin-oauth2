@@ -14,9 +14,11 @@ module LinkedIn
 
       response = @connection.get(url, params, headers)
 
-      p "Simple query"
-      p response.body.class
-      return response.body
+      return Mash.from_json(response.body)
+    end
+
+    def deprecated
+      LinkedIn::Deprecated.new(LinkedIn::ErrorMessages.deprecated)
     end
 
     private ##############################################################
