@@ -75,12 +75,6 @@ module LinkedIn
       get(path, options)
     end
 
-    # @deprecated Use {#add_group_share} instead
-    def post_group_discussion(group_id, discussion)
-      warn 'Use add_group_share over post_group_discussion. This will be taken out in future versions'
-      add_group_share(group_id, discussion)
-    end
-
     # Create a share for a company that the authenticated user
     # administers
     #

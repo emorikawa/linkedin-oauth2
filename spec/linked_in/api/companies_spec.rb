@@ -43,6 +43,13 @@ describe LinkedIn::Companies do
     expect(response.status).to eq 201
   end
 
+  it "should be able to follow a company" do
+    stub_request(:post, "https://api.linkedin.com/v1/people/~/following/companies?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
+    response = api.follow_company(1586)
+    expect(response.body).to eq ""
+    expect(response.status).to eq 201
+  end
+
   it "should be able to unfollow a company" do
     stub_request(:delete, "https://api.linkedin.com/v1/people/~/following/companies/id=1586?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
     response = api.unfollow_company(1586)

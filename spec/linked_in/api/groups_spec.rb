@@ -46,21 +46,6 @@ describe LinkedIn::Groups do
     expect(api.group_posts(:id => 123)).to be_an_instance_of(LinkedIn::Mash)
   end
 
-  it "should be able to post a discussion to a group" do
-    expected = {
-      "title" => "New Discussion",
-      "summary" => "New Summary",
-      "content" => {
-        "submitted-url" => "http://www.google.com"
-      }
-    }
-
-    stub_request(:post, "https://api.linkedin.com/v1/groups/123/posts?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
-    response = api.post_group_discussion(123, expected)
-    expect(response.body).to eq ""
-    expect(response.status).to eq 201
-  end
-
   it "should be able to share a new group status" do
     stub_request(:post, "https://api.linkedin.com/v1/groups/1/posts?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
     response = api.add_group_share(1, comment: "Testing, 1, 2, 3")

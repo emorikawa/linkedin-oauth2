@@ -13,6 +13,26 @@ module LinkedIn
   #   @options opts [String] :secure (true) specify if urls in the
   #     response should be https
   #   @options opts [String] :"secure-urls" (true) alias to secure option
+  #
+  # @!macro share_input_fields
+  #   @param [Hash] share content of the share
+  #   @option share [String] :comment
+  #   @option share [String] :content
+  #   @option share [String] :title
+  #   @option share [String] :submitted-url
+  #   @option share [String] :submitted-image-url
+  #   @option share [String] :description
+  #   @option share [String] :visibility
+  #   @option share [String] :code
+  #
+  # @!macro company_path_options
+  #   @param [Hash] options identifies the user profile you want
+  #   @option options [String] :domain company email domain
+  #   @option options [String] :id company ID
+  #   @option options [String] :url
+  #   @option options [String] :name company universal name
+  #   @option options [String] :is_admin list all companies that the
+  #     authenticated is an administrator of
   class APIResource
 
     def initialize(connection)

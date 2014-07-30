@@ -10,7 +10,7 @@ module LinkedIn
   #   * GET Network Statistics
   #   * POST Post Network Update
   #
-  # [(contribute here)](https://github.com/hexgnu/linkedin)
+  # [(contribute here)](https://github.com/emorikawa/linkedin-oauth2)
   class ShareAndSocialStream < APIResource
     # Retrieve the authenticated users network updates
     #
@@ -36,7 +36,7 @@ module LinkedIn
     # TODO refactor to use #network_updates
     def shares(options={})
       path = "#{profile_path(options)}/network/updates"
-      get(path, {:type => "SHAR", :scope => "self"}.merge(options))
+      get(path, {type: "SHAR", scope: "self"}.merge(options))
     end
 
     # Retrieve all comments for a particular network update
