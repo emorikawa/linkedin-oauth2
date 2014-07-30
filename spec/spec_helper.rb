@@ -9,3 +9,7 @@ VCR.configure do |config|
 end
 
 require 'webmock/rspec'
+
+# https://coveralls.io/r/emorikawa/linkedin-oauth2
+require 'coveralls'
+Coveralls.wear!

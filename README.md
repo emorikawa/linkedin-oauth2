@@ -1,4 +1,6 @@
-# LinkedIn
+# LinkedIn OAuth 2.0
+[![Code Climate](https://codeclimate.com/github/emorikawa/linkedin-oauth2/badges/gpa.svg)](https://codeclimate.com/github/emorikawa/linkedin-oauth2)
+[![Dependency Status](https://gemnasium.com/emorikawa/linkedin-oauth2.svg)](https://gemnasium.com/emorikawa/linkedin-oauth2)
 
 OAuth 2.0 Ruby wrapper for the [LinkedIn API](http://developer.linkedin.com).
 
@@ -381,4 +383,4 @@ Please see [CONTRIBUTING.md](https://github.com/emorikawa/linkedin-oauth2/blob/m
 
 # License
 
-Copyright :copyright: 2014-present [Evan Morikawa](https://twitter.com/e0m) 2013-2014 [Matt Kirk](http://matthewkirk.com/) 2009-11 [Wynn Netherland](http://wynnnetherland.com/) and [contributors](https://github.com/emorikawa/linkedin-oauth2/graphs/contributors). It is free software, and may be redistributed under the terms specified in the MIT-LICENSE file. See [LICENSE](https://github.com/emorikawa/linkedin-oauth2/blob/master/LICENSE.md) for details.
+Copyright :copyright: 2014-present [Evan Morikawa](https://twitter.com/e0m) 2013-2014 [Matt Kirk](http://matthewkirk.com/) 2009-11 [Wynn Netherland](http://wynnnetherland.com/) and [contributors](https://github.com/emorikawa/linkedin-oauth2/graphs/contributors). It is free software, and may be redistributed under the terms specified in the MIT-LICENSE file. See [LICENSE](https://github.com/emorikawa/linkedin-oauth2/blob/master/LICENSE) for details.
