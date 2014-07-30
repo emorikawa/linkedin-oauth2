@@ -15,6 +15,11 @@ module LinkedIn
     end
 
     extend Forwardable # Composition over inheritance
+    def_delegators :@jobs, :job,
+                           :job_bookmarks,
+                           :job_suggestions,
+                           :add_job_bookmark
+
     def_delegators :@people, :profile,
                              :connections,
                              :picture_urls,
@@ -22,11 +27,44 @@ module LinkedIn
 
     def_delegators :@search, :search
 
+    def_delegators :@groups, :join_group,
+                             :group_posts,
+                             :group_profile,
+                             :add_group_share,
+                             :group_suggestions,
+                             :group_memberships,
+                             :post_group_discussion
+
+    def_delegators :@companies, :company,
+                                :follow_company,
+                                :company_updates,
+                                :unfollow_company,
+                                :add_company_share,
+                                :company_statistics,
+                                :company_updates_likes,
+                                :company_updates_comments
+
+    def_delegators :@communications, :send_message
+
+    def_delegators :@share_and_social_stream, :shares,
+                                              :add_share,
+                                              :like_share,
+                                              :share_likes,
+                                              :unlike_share,
+                                              :share_comments,
+                                              :update_comment,
+                                              :network_updates
+
     private ##############################################################
 
     def initialize_endpoints
+      @jobs = LinkedIn::Jobs.new(@connection)
       @people = LinkedIn::People.new(@connection)
       @search = LinkedIn::Search.new(@connection)
+      @groups = LinkedIn::Groups.new(@connection)
+      @companies = LinkedIn::Companies.new(@connection)
+      @communications = LinkedIn::Communications.new(@connection)
+      @share_and_social_stream = LinkedIn::ShareAndSocialStream.new(@connection)
     end
 
     def default_params

@@ -13,8 +13,8 @@ module LinkedIn
     #   @options opts [String] :url The profile url
     #   @options opts [String] :lang Requests the language of the profile.
     #     Options are: en, fr, de, it, pt, es
-    #   @options opts [Array]  :fields An array of fields to fetch. The
-    #     list of fields can be found at
+    #   @options opts [Array, Hash] :fields fields to fetch. The list of
+    #     fields can be found at
     #     https://developer.linkedin.com/documents/profile-fields
     #   @options opts [String] :secure (true) specify if urls in the
     #     response should be https
