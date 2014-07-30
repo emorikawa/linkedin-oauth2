@@ -29,7 +29,7 @@ module LinkedIn
     #     Fetches your own profile
     #   @overload profile(id_or_url, opts)
     #     Fetches the profile of another user
-    #     @param [String]
+    #     @param [String] id_or_url a LinkedIn id or a profile URL
     #     @param [Hash] opts more profile options
     #     @macro profile_options
     #   @overload profile(opts)
