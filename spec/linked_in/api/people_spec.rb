@@ -170,4 +170,12 @@ describe LinkedIn::People do
       expect(result["values"][0]["industry"]).to be_kind_of String
     end
   end
+
+  it "grabs picture urls" do
+    VCR.use_cassette("people picture urls") do
+      result = api.picture_urls
+      verify result
+      expect(result.all[0] =~ URI::regexp).to_not be_nil
+    end
+  end
 end

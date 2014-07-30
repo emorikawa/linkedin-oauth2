@@ -72,13 +72,33 @@ module LinkedIn
       get(path, options)
     end
 
+    # Retrieve the picture url
+    # http://api.linkedin.com/v1/people/~/picture-urls::(original)
+    #
+    # Permissions: r_network
+    #
+    # @options [String] :id, the id of the person for whom you want the profile picture
+    # @options [String] :picture_size, default: 'original'
+    # @options [String] :secure, default: 'false', options: ['false','true']
+    #
+    # example for use in code: client.picture_urls(:id => 'id_of_connection')
+    def picture_urls(options={})
+      picture_size = options.delete(:picture_size) || 'original'
+      path = "#{profile_path(options)}/picture-urls::(#{picture_size})"
+      get(path, options)
+    end
+
+
+    protected ############################################################
+
+
     def get(path, options)
       options[:"secure-urls"] = true unless options[:secure] == false
       super path, options
     end
 
 
-    private ############################################################
+    private ##############################################################
 
 
     def parse_id(id, options)
