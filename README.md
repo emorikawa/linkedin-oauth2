@@ -368,7 +368,7 @@ See the [README from v0.1-oauth2](https://github.com/emorikawa/linkedin-oauth2/b
 
 # Contributing
 
-Please see CONTRIBUTING.md for details.
+Please see [CONTRIBUTING.md](https://github.com/emorikawa/linkedin-oauth2/blob/master/CONTRIBUTING.md) for details.
 
 # Credits
 
