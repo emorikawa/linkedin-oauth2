@@ -9,7 +9,7 @@ OAuth 2.0 Ruby wrapper for the [LinkedIn API](http://developer.linkedin.com).
 If you are using OAuth 1.0, see the [hexgnu/linkedin](https://github.com/hexgnu/linkedin)
 
 If you are upgrading from the oauth2-v0.1.0 version of this gem, see the
-upgrade notes below.
+[upgrade notes](#upgrading) below.
 
 # Installation
 
@@ -25,13 +25,18 @@ Otherwise:
 
 # Usage
 
-**Step 1:** [Register](https://www.linkedin.com/secure/developer) your
+**[Step 1:](#step-1-register-your-application)** [Register](https://www.linkedin.com/secure/developer) your
 application with LinkedIn. They will give you a **Client ID** (aka API
 Key) and a **Client Secret** (aka Secret Key)
 
-**Step 2:** Use your **Client ID** and **Client Secret** to obtain an **Access Token** from some user.
+**[Step 2:](#step-2-getting-an-access-token)** Use your **Client ID** and **Client Secret** to obtain an **Access Token** from some user.
 
-**Step 3:** Use an **Access Token** to query the API.
+**[Step 3:](#step-3-using-linkedins-api)** Use an **Access Token** to query the API.
+
+```ruby
+api = LinkedIn::API.new(access_token)
+me = api.profile
+```
 
 ## Step 1: Register your Application
 
@@ -103,9 +108,9 @@ end
 ### Step 2B: Get Auth Code URL
 
 ```ruby
-@oauth = LinkedIn::OAuth2.new
+oauth = LinkedIn::OAuth2.new
 
-url = @oauth.auth_code_url
+url = oauth.auth_code_url
 ```
 
 ### Step 2C: User Sign In
@@ -125,7 +130,7 @@ module for more options you can set.
 ```ruby
 code = "THE_OAUTH_CODE_LINKEDIN_GAVE_ME"
 
-access_token = @oauth.get_access_token(code)
+access_token = oauth.get_access_token(code)
 ```
 
 Now that you have an access token, you can use it to query the API.
@@ -316,6 +321,12 @@ See https://developer.linkedin.com/documents/communications
 
 api.send_message("Subject", "Body", ["user1234", "user3456"])
 ```
+
+# Documentation
+
+On [RubyDoc here](http://rubydoc.info/github/emorikawa/linkedin-oauth2/frames/file/README.md)
+
+Read the source for [LinkedIn::API](https://github.com/emorikawa/linkedin-oauth2/blob/master/lib/linked_in/api.rb) and [LinkedIn::OAuth2](https://github.com/emorikawa/linkedin-oauth2/blob/master/lib/linked_in/oauth2.rb)
 
 # Upgrading
 
