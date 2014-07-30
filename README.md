@@ -192,6 +192,30 @@ my_new_connections = api.connections(since)
 evans_new_connections = api.connections(since, id: "SDmkCxL2ya")
 ```
 
+### People Search
+
+Search through People
+
+See https://developer.linkedin.com/documents/people-search-api
+
+```ruby
+api.search
+api.search("Proximate")
+api.search(keywords: "Proximate Olin")
+api.search(keywords: "Proximate Olin", start: 10, count: 20)
+api.search(school_name: "Olin College of Engineering")
+
+api.search(fields: {facets: ["code", {buckets: ["code", "name"]}] },
+                    facets: "location")
+
+# Identify all 1st degree connections living in the San Francisco Bay Area
+# Generates http://api.linkedin.com/v1/people-search:(facets:(code,buckets:(code,name,count)))?facets=location,network&facet=location,us:84&facet=network,F
+# See https://developer.linkedin.com/documents/people-search-api#Facets
+api.search(fields: {facets: ["code", {buckets: ["code", "name", "count"]}]},
+           facets: "location,network",
+           facet: ["location,us:84", "network,F"])
+```
+
 ### Groups
 
 Access and interact with LinkedIn Groups
@@ -232,6 +256,11 @@ See https://developer.linkedin.com/documents/communications
 
 
 
+### Authenticate Overview
+* Search works with multiple facets & multiple params
+* Deprecated image pulling methods no longer supported by LinkedIn
+* YARD for methods
+* Real return values with VCR
 
 
 

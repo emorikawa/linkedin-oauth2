@@ -13,6 +13,10 @@ module LinkedIn
 
       super url, options, &block
 
+      # We need to use the FlatParamsEncoder so we can pass multiple of
+      # the same param to certain endpoints (like the search API).
+      self.options.params_encoder = ::Faraday::FlatParamsEncoder
+
       self.response :raise_error
     end
 

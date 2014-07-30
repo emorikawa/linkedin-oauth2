@@ -20,21 +20,23 @@ module LinkedIn
                              :picture_urls,
                              :new_connections
 
+    def_delegators :@search, :search
+
     private ##############################################################
 
+    def initialize_endpoints
+      @people = LinkedIn::People.new(@connection)
+      @search = LinkedIn::Search.new(@connection)
+    end
 
     def default_params
-      # https://developer.linkedin.com/documents/authentication
+      # https//developer.linkedin.com/documents/authentication
       return {oauth2_access_token: @access_token.token}
     end
 
     def default_headers
       # https://developer.linkedin.com/documents/api-requests-json
       return {"x-li-format" => "json"}
-    end
-
-    def initialize_endpoints
-      @people = LinkedIn::People.new(@connection)
     end
 
     def verify_access_token!(access_token)

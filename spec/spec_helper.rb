@@ -8,6 +8,4 @@ VCR.configure do |config|
   config.hook_into :webmock
 end
 
-RSpec.configure do |config|
-  config.extend VCR::RSpec::Macros
-end
+require 'webmock/rspec'

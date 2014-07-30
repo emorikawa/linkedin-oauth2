@@ -9,7 +9,7 @@ module LinkedIn
 
     protected ############################################################
 
-    def simple_query(path, options={})
+    def get(path, options={})
       url, params, headers = prepare_connection_params(path, options)
 
       response = @connection.get(url, params, headers)
@@ -25,26 +25,39 @@ module LinkedIn
 
     def prepare_connection_params(path, options)
       path = @connection.path_prefix + path
-
-      default = LinkedIn.config.default_profile_fields
-      fields = options.delete(:fields) || default
-
-      if options.delete(:public)
-        path +=":public"
-      elsif fields
-        path +=":(#{build_fields_params(fields)})"
-      end
+      path += generate_field_selectors(options)
 
       headers = options.delete(:headers) || {}
 
-      options[:"secure-urls"] = true unless options[:secure] == false
+      params = format_options_for_query(options)
 
-      return [path, options, headers]
+      return [path, params, headers]
+    end
+
+    # Dasherizes the param keys
+    def format_options_for_query(options)
+      options.reduce({}) do |list, kv|
+        key, value = kv.first.to_s.gsub("_","-"), kv.last
+        list[key]  = value
+        list
+      end
+    end
+    def generate_field_selectors(options)
+      default = LinkedIn.config.default_profile_fields || {}
+      fields = options.delete(:fields) || default
+
+      if options.delete(:public)
+        return ":public"
+      elsif fields.empty?
+        return ""
+      else
+        return ":(#{build_fields_params(fields)})"
+      end
     end
 
     def build_fields_params(fields)
       if fields.is_a?(Hash) && !fields.empty?
-        fields.map {|index,value| "#{index}:(#{build_fields_params(value)})" }.join(',')
+        fields.map {|i,v| "#{i}:(#{build_fields_params(v)})" }.join(',')
       elsif fields.respond_to?(:each)
         fields.map {|field| build_fields_params(field) }.join(',')
       else

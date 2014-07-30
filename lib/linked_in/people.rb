@@ -48,7 +48,7 @@ module LinkedIn
     def profile(id={}, options={})
       options = parse_id(id, options)
       path = profile_path(options)
-      simple_query(path, options)
+      get(path, options)
     end
 
     # Retrieve a list of 1st degree connections for a user who has
@@ -61,7 +61,7 @@ module LinkedIn
     def connections(id={}, options={})
       options = parse_id(id, options)
       path = "#{profile_path(options, false)}/connections"
-      simple_query(path, options)
+      get(path, options)
     end
 
     # Retrieve a list of the latest set of 1st degree connections for a
@@ -81,27 +81,12 @@ module LinkedIn
       since = parse_modified_since(since)
       options.merge!('modified' => 'new', 'modified-since' => since)
       path = "#{profile_path(options, false)}/connections"
-      simple_query(path, options)
+      get(path, options)
     end
 
-    # @deprecated No longer in the LinkedIn API People docs
-    #
-    # Retrieve the picture url
-    # http://api.linkedin.com/v1/people/~/picture-urls::(original)
-    #
-    # Permissions: r_network
-    #
-    # @options [String] :id, the id of the person for whom you want the
-    #   profile picture
-    # @options [String] :picture_size, default: 'original'
-    # @options [String] :secure, default: 'false', options: ['false','true']
-    #
-    # example for use in code: client.picture_urls(:id => 'id_of_connection')
-    def picture_urls(options={})
-      raise deprecated
-      picture_size = options.delete(:picture_size) || 'original'
-      path = "#{picture_urls_path(options)}::(#{picture_size})"
-      simple_query(path, options)
+    def get(path, options)
+      options[:"secure-urls"] = true unless options[:secure] == false
+      super path, options
     end
 
 
@@ -170,11 +155,6 @@ module LinkedIn
 
     def is_self(str)
       str == "self" or str == "~"
-    end
-
-    def picture_urls_path(options)
-      path = profile_path(options)
-      path += "/picture-urls"
     end
 
     # Returns a unix time in miliseconds

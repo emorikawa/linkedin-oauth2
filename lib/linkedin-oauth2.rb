@@ -24,6 +24,7 @@ require "linked_in/access_token"
 # All of the endpoints
 require "linked_in/api_resource"
 require "linked_in/people"
+require "linked_in/search"
 
 # The primary API object that makes requests.
 require "linked_in/api"
