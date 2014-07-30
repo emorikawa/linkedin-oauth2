@@ -13,7 +13,7 @@ module LinkedIn
     # @see http://developer.linkedin.com/documents/invitation-api Invitation API
     #
     # @example
-    #   client.send_message("subject", "body", ["person_1_id", "person_2_id"])
+    #   api.send_message("subject", "body", ["person_1_id", "person_2_id"])
     #
     # @param [String] subject Subject of the message
     # @param [String] body Body of the message, plain text only
@@ -25,15 +25,16 @@ module LinkedIn
       path = "/people/~/mailbox"
 
       message = {
-          'subject' => subject,
-          'body' => body,
-          'recipients' => {
-              'values' => recipient_paths.map do |profile_path|
-                { 'person' => { '_path' => "/people/#{profile_path}" } }
-              end
-          }
+        subject: subject,
+        body: body,
+        recipients: {
+          values: recipient_paths.map do |profile_path|
+            {person: {_path: "/people/#{profile_path}"} }
+          end
+        }
       }
-      post(path, MultiJson.dump(message), "Content-Type" => "application/json")
+
+      post(path, message)
     end
   end
 end
