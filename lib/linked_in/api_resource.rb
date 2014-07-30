@@ -34,6 +34,11 @@ module LinkedIn
       @connection.post(path, body, headers, &block)
     end
 
+    def put(path=nil, body=nil, headers=nil, &block)
+      path = @connection.path_prefix + path
+      @connection.put(path, body, headers, &block)
+    end
+
     def deprecated
       LinkedIn::Deprecated.new(LinkedIn::ErrorMessages.deprecated)
     end

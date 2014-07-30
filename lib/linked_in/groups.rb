@@ -17,7 +17,7 @@ module LinkedIn
   #   * DELETE A comment or flag comment as inappropriate
   #   * DELETE Remove a Group Suggestion
   #
-  # [(contribute here)](https://github.com/hexgnu/linkedin)
+  # [(contribute here)](https://github.com/emorikawa/linkedin-oauth2)
   class Groups < APIResource
     # Retrieve group suggestions for the current user
     #
@@ -25,11 +25,11 @@ module LinkedIn
     #
     # @see http://developer.linkedin.com/documents/job-bookmarks-and-suggestions
     #
-    # @macro person_path_options
+    # @macro profile_options
     # @return [LinkedIn::Mash]
     def group_suggestions(options = {})
-      path = "#{person_path(options)}/suggestions/groups"
-      simple_query(path, options)
+      path = "#{profile_path(options)}/suggestions/groups"
+      get(path, options)
     end
 
     # Retrieve the groups a current user belongs to
@@ -38,11 +38,11 @@ module LinkedIn
     #
     # @see http://developer.linkedin.com/documents/groups-api
     #
-    # @macro person_path_options
+    # @macro profile_options
     # @return [LinkedIn::Mash]
     def group_memberships(options = {})
-      path = "#{person_path(options)}/group-memberships"
-      simple_query(path, options)
+      path = "#{profile_path(options)}/group-memberships"
+      get(path, options)
     end
 
     # Retrieve the profile of a group
@@ -56,7 +56,7 @@ module LinkedIn
     # @return [LinkedIn::Mash]
     def group_profile(options)
       path = group_path(options)
-      simple_query(path, options)
+      get(path, options)
     end
 
     # Retrieve the posts in a group
@@ -72,7 +72,7 @@ module LinkedIn
     # @return [LinkedIn::Mash]
     def group_posts(options)
       path = "#{group_path(options)}/posts"
-      simple_query(path, options)
+      get(path, options)
     end
 
     # @deprecated Use {#add_group_share} instead
@@ -93,7 +93,7 @@ module LinkedIn
     # @return [void]
     def add_group_share(group_id, share)
       path = "/groups/#{group_id}/posts"
-      post(path, MultiJson.dump(share), "Content-Type" => "application/json")
+      post(path, share)
     end
 
     # (Update) User joins, or requests to join, a group
@@ -105,7 +105,7 @@ module LinkedIn
     def join_group(group_id)
       path = "/people/~/group-memberships/#{group_id}"
       body = {'membership-state' => {'code' => 'member' }}
-      put(path, MultiJson.dump(body), "Content-Type" => "application/json")
+      put(path, body)
     end
 
 
