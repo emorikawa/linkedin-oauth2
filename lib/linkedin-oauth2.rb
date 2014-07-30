@@ -21,8 +21,10 @@ require "linked_in/connection"
 # Data object to wrap API access token
 require "linked_in/access_token"
 
-# All of the endpoints
+# Endpoints inherit from APIResource
 require "linked_in/api_resource"
+
+# All of the endpoints
 require "linked_in/jobs"
 require "linked_in/people"
 require "linked_in/search"
@@ -32,6 +34,7 @@ require "linked_in/communications"
 require "linked_in/share_and_social_stream"
 
 # The primary API object that makes requests.
+# It composes in all of the endpoints
 require "linked_in/api"
 
 module LinkedIn
