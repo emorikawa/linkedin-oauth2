@@ -1,4 +1,6 @@
-describe LinkedIn::Search do
+require "spec_helper"
+
+describe LinkedIn::Search, helpers: :api do
   let(:access_token) {"dummy_access_token"}
   let(:api) {LinkedIn::API.new(access_token)}
 

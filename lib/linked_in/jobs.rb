@@ -8,8 +8,6 @@ module LinkedIn
   # this module
   #
   #   * DELETE a Job Bookmark
-  #
-  # [(contribute here)](https://github.com/hexgnu/linkedin)
   class Jobs < APIResource
     # Retrieve likes on a particular company update:
     #
@@ -20,29 +18,29 @@ module LinkedIn
     # @return [LinkedIn::Mash]
     def job(options = {})
       path = jobs_path(options)
-      simple_query(path, options)
+      get(path, options)
     end
 
     # Retrieve the current members' job bookmarks
     #
     # @see http://developer.linkedin.com/documents/job-bookmarks-and-suggestions
     #
-    # @macro person_path_options
+    # @macro profile_options
     # @return [LinkedIn::Mash]
     def job_bookmarks(options = {})
-      path = "#{person_path(options)}/job-bookmarks"
-      simple_query(path, options)
+      path = "#{profile_path(options)}/job-bookmarks"
+      get(path, options)
     end
 
     # Retrieve job suggestions for the current user
     #
     # @see http://developer.linkedin.com/documents/job-bookmarks-and-suggestions
     #
-    # @macro person_path_options
+    # @macro profile_options
     # @return [LinkedIn::Mash]
     def job_suggestions(options = {})
-      path = "#{person_path(options)}/suggestions/job-suggestions"
-      simple_query(path, options)
+      path = "#{profile_path(options)}/suggestions/job-suggestions"
+      get(path, options)
     end
 
     # Create a job bookmark for the authenticated user
@@ -53,8 +51,18 @@ module LinkedIn
     # @return [void]
     def add_job_bookmark(job_id)
       path = "/people/~/job-bookmarks"
-      body = {'job' => {'id' => job_id}}
-      post(path, MultiJson.dump(body), "Content-Type" => "application/json")
+      post(path, {job: {id: job_id}})
+    end
+
+    private ##############################################################
+
+    def jobs_path(options)
+      path = "/jobs"
+      if id = options.delete(:id)
+        path += "/id=#{id}"
+      else
+        path += "/~"
+      end
     end
   end
 end

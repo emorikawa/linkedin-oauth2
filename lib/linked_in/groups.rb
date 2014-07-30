@@ -107,5 +107,16 @@ module LinkedIn
       body = {'membership-state' => {'code' => 'member' }}
       put(path, MultiJson.dump(body), "Content-Type" => "application/json")
     end
+
+
+    private ##############################################################
+
+
+    def group_path(options)
+      path = "/groups"
+      if id = options.delete(:id)
+        path += "/#{id}"
+      end
+    end
   end
 end

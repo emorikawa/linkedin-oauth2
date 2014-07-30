@@ -9,3 +9,8 @@ VCR.configure do |config|
 end
 
 require 'webmock/rspec'
+
+require_relative "linked_in/api_helpers"
+RSpec.configure do |rspec|
+  rspec.extend APIHelpers, helpers: :api
+end
