@@ -258,6 +258,7 @@ See https://developer.linkedin.com/documents/communications
 
 ### Authenticate Overview
 * Search works with multiple facets & multiple params
+* Company profile was wrong. using id= instead of /id
 * Deprecated image pulling methods no longer supported by LinkedIn
 * YARD for methods
 * Real return values with VCR

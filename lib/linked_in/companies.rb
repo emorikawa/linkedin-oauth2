@@ -11,7 +11,7 @@ module LinkedIn
   #   * GET Suggested Companies to Follow
   #   * GET Company Products
   #
-  # [(contribute here)](https://github.com/hexgnu/linkedin)
+  # [(contribute here)](https://github.com/emorikawa/linkedin-oauth2)
   class Companies < APIResource
 
     # Retrieve a Company Profile
@@ -25,8 +25,8 @@ module LinkedIn
     # @option options [String] :start
     # @return [LinkedIn::Mash]
     def company(options = {})
-      path   = company_path(options)
-      simple_query(path, options)
+      path = company_path(options)
+      get(path, options)
     end
 
     # Retrieve a feed of event items for a Company
@@ -40,7 +40,7 @@ module LinkedIn
     # @return [LinkedIn::Mash]
     def company_updates(options={})
       path = "#{company_path(options)}/updates"
-      simple_query(path, options)
+      get(path, options)
     end
 
     # Retrieve statistics for a particular company page
@@ -53,7 +53,7 @@ module LinkedIn
     # @return [LinkedIn::Mash]
     def company_statistics(options={})
       path = "#{company_path(options)}/company-statistics"
-      simple_query(path, options)
+      get(path, options)
     end
 
     # Retrieve comments on a particular company update:
@@ -66,7 +66,7 @@ module LinkedIn
     # @return [LinkedIn::Mash]
     def company_updates_comments(update_key, options={})
       path = "#{company_path(options)}/updates/key=#{update_key}/update-comments"
-      simple_query(path, options)
+      get(path, options)
     end
 
     # Retrieve likes on a particular company update:
@@ -79,7 +79,7 @@ module LinkedIn
     # @return [LinkedIn::Mash]
     def company_updates_likes(update_key, options={})
       path = "#{company_path(options)}/updates/key=#{update_key}/likes"
-      simple_query(path, options)
+      get(path, options)
     end
 
     # Create a share for a company that the authenticated user
@@ -95,8 +95,8 @@ module LinkedIn
     # @return [void]
     def add_company_share(company_id, share)
       path = "/companies/#{company_id}/shares"
-      defaults = {:visibility => {:code => "anyone"}}
-      post(path, MultiJson.dump(defaults.merge(share)), "Content-Type" => "application/json")
+      defaults = {visibility: {code: "anyone"}}
+      post(path, defaults.merge(share))
     end
 
     # (Create) authenticated user starts following a company
@@ -107,8 +107,7 @@ module LinkedIn
     # @return [void]
     def follow_company(company_id)
       path = "/people/~/following/companies"
-      body = {:id => company_id }
-      post(path, MultiJson.dump(body), "Content-Type" => "application/json")
+      post(path, {id: company_id})
     end
 
     # (Destroy) authenticated user stops following a company

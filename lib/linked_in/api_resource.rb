@@ -30,13 +30,15 @@ module LinkedIn
     end
 
     def post(path=nil, body=nil, headers=nil, &block)
-      path = @connection.path_prefix + path
-      @connection.post(path, body, headers, &block)
+      @connection.post(prepend_prefix(path), body, headers, &block)
     end
 
     def put(path=nil, body=nil, headers=nil, &block)
-      path = @connection.path_prefix + path
-      @connection.put(path, body, headers, &block)
+      @connection.put(prepend_prefix(path), body, headers, &block)
+    end
+
+    def delete(path=nil, params=nil, headers=nil, &block)
+      @connection.delete(prepend_prefix(path), params, headers, &block)
     end
 
     def deprecated
@@ -45,8 +47,12 @@ module LinkedIn
 
     private ##############################################################
 
+    def prepend_prefix(path)
+      return @connection.path_prefix + path
+    end
+
     def prepare_connection_params(path, options)
-      path = @connection.path_prefix + path
+      path = prepend_prefix(path)
       path += generate_field_selectors(options)
 
       headers = options.delete(:headers) || {}
