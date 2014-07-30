@@ -4,8 +4,8 @@ OAuth 2.0 Ruby wrapper for the [LinkedIn API](http://developer.linkedin.com).
 
 If you are using OAuth 1.0, see the [hexgnu/linkedin](https://github.com/hexgnu/linkedin)
 
-If you are upgrading from the v0.1 version of this gem, see the upgrade
-notes below.
+If you are upgrading from the oauth2-v0.1.0 version of this gem, see the
+upgrade notes below.
 
 # Installation
 
@@ -327,16 +327,16 @@ primary goals were to:
 
 There are two places you may be upgrading from:
 
-1. v0.1-oauth2 of this linkedin-oauth2 gem
+1. oauth2-v0.1 of this linkedin-oauth2 gem
 2. [hexgnu/linkedin](https://github.com/hexgnu/linkedin) OAuth 1.0 gem
 
-### From v0.1 of linkedin-oauth2
+### From oauth2-v0.1.0 of linkedin-oauth2
 
-See the [README from v0.1-oauth2](https://github.com/emorikawa/linkedin-oauth2/blob/395540d029156f29d0e53f588feb31f279aa5d70/README.markdown)
+See the [README from oauth2-v0.1](https://github.com/emorikawa/linkedin-oauth2/blob/395540d029156f29d0e53f588feb31f279aa5d70/README.markdown)
 
 * The OAuth portion has substantially changed. There should be no changes
   for the signature of API calls or the response hashes
-* Some of the API calls in the v0.1-oauth2 were actually broken in the
+* Some of the API calls in the oauth2-v0.1 were actually broken in the
   initial OAuth2.0 transition. Those have now been fixed.
 * Instead of a single `LinkedIn::Client` object there are now two separate
   major objects.
