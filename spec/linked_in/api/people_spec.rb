@@ -147,12 +147,12 @@ describe LinkedIn::People do
   end
   it "grabs new connections since a numeric date" do
     VCR.use_cassette("people profile new connections self") do
-      verify api.new_connections(1388552400000)
+      verify api.new_connections(1388534400000)
     end
   end
-  it "grabs new connections since a Time.new object" do
+  it "grabs new connections since a Time.utc object" do
     VCR.use_cassette("people profile new connections self") do
-      verify api.new_connections(Time.new(2014,1,1))
+      verify api.new_connections(Time.utc(2014,1,1))
     end
   end
   it "grabs new connections for another user" do

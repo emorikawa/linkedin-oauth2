@@ -21,3 +21,6 @@ doc/
 # Run `rake build` to generate the gem
 /*.gem
 pkg/
+
+# Running coveralls
+coverage

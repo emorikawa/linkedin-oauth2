@@ -105,11 +105,16 @@ module LinkedIn
           since = since * 1000
         end
       elsif since.is_a? ::String
-        since = ::Time.parse(since).to_i * 1000
+        since = utc_parse(since)
       elsif since.is_a? ::Time
         since = since.to_i * 1000
       end
       return since
+    end
+
+    def utc_parse(since)
+      t = ::Time.parse(since)
+      Time.utc(t.year, t.month, t.day, t.hour, t.min, t.sec).to_i * 1000
     end
 
   end

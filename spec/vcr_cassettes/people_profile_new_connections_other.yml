@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.linkedin.com/v1/people/id=SDmkCxL2ya/connections?modified=new&modified-since=1388552400000&oauth2_access_token=dummy_access_token&secure-urls=true
+    uri: https://api.linkedin.com/v1/people/id=SDmkCxL2ya/connections?modified=new&modified-since=1388534400000&oauth2_access_token=dummy_access_token&secure-urls=true
     body:
       encoding: US-ASCII
       string: ''

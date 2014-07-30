@@ -1,7 +1,7 @@
 describe "LinkedIn::AccessToken" do
   let(:tok) {:dummy_access_token}
   let(:expires_in) { 64000 }
-  let(:expires_at) { Time.new(2014,1,1) }
+  let(:expires_at) { Time.utc(2014,1,1) }
 
   context "When just token is set" do
     subject {LinkedIn::AccessToken.new(tok)}
