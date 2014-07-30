@@ -19,7 +19,7 @@ module LinkedIn
     # @see http://developer.linkedin.com/documents/get-network-updates-and-statistics-api
     # @see http://developer.linkedin.com/documents/network-update-types Network Update Types
     #
-    # @macro person_path_options
+    # @macro profile_options
     # @option options [String] :scope
     # @option options [String] :type
     # @option options [String] :count
@@ -29,14 +29,14 @@ module LinkedIn
     # @option options [String] :show-hidden-members
     # @return [LinkedIn::Mash]
     def network_updates(options={})
-      path = "#{person_path(options)}/network/updates"
-      simple_query(path, options)
+      path = "#{profile_path(options)}/network/updates"
+      get(path, options)
     end
 
     # TODO refactor to use #network_updates
     def shares(options={})
-      path = "#{person_path(options)}/network/updates"
-      simple_query(path, {:type => "SHAR", :scope => "self"}.merge(options))
+      path = "#{profile_path(options)}/network/updates"
+      get(path, {:type => "SHAR", :scope => "self"}.merge(options))
     end
 
     # Retrieve all comments for a particular network update
@@ -49,11 +49,11 @@ module LinkedIn
     #
     # @param [String] update_key a update/update-key representing a
     #   particular network update
-    # @macro person_path_options
+    # @macro profile_options
     # @return [LinkedIn::Mash]
     def share_comments(update_key, options={})
-      path = "#{person_path(options)}/network/updates/key=#{update_key}/update-comments"
-      simple_query(path, options)
+      path = "#{profile_path(options)}/network/updates/key=#{update_key}/update-comments"
+      get(path, options)
     end
 
     # Retrieve all likes for a particular network update
@@ -66,11 +66,11 @@ module LinkedIn
     #
     # @param [String] update_key a update/update-key representing a
     #   particular network update
-    # @macro person_path_options
+    # @macro profile_options
     # @return [LinkedIn::Mash]
     def share_likes(update_key, options={})
-      path = "#{person_path(options)}/network/updates/key=#{update_key}/likes"
-      simple_query(path, options)
+      path = "#{profile_path(options)}/network/updates/key=#{update_key}/likes"
+      get(path, options)
     end
 
     # Create a share for the authenticated user
@@ -83,8 +83,8 @@ module LinkedIn
     # @return [void]
     def add_share(share)
       path = "/people/~/shares"
-      defaults = {:visibility => {:code => "anyone"}}
-      post(path, MultiJson.dump(defaults.merge(share)), "Content-Type" => "application/json")
+      defaults = {visibility: {code: "anyone"}}
+      post(path, defaults.merge(share))
     end
 
     # Create a comment on an update from the authenticated user
@@ -97,8 +97,7 @@ module LinkedIn
     # @return [void]
     def update_comment(update_key, comment)
       path = "/people/~/network/updates/key=#{update_key}/update-comments"
-      body = {'comment' => comment}
-      post(path, MultiJson.dump(body), "Content-Type" => "application/json")
+      post(path, {comment: comment})
     end
 
     # (Update) like an update as the authenticated user
@@ -110,7 +109,7 @@ module LinkedIn
     # @return [void]
     def like_share(update_key)
       path = "/people/~/network/updates/key=#{update_key}/is-liked"
-      put(path, 'true', "Content-Type" => "application/json")
+      put(path, "true")
     end
 
     # (Destroy) unlike an update the authenticated user previously
@@ -123,7 +122,7 @@ module LinkedIn
     # @return [void]
     def unlike_share(update_key)
       path = "/people/~/network/updates/key=#{update_key}/is-liked"
-      put(path, 'false', "Content-Type" => "application/json")
+      put(path, "false")
     end
   end
 end
