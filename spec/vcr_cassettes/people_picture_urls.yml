@@ -21,54 +21,34 @@ http_interactions:
       message: !binary |-
         T0s=
     headers:
-      !binary "U2VydmVy":
-      - !binary |-
-        QXBhY2hlLUNveW90ZS8xLjE=
-      !binary "WC1MaS1SZXF1ZXN0LUlk":
-      - !binary |-
-        RkNISlVMU1BUSQ==
-      !binary "WC1MaS1VdWlk":
-      - !binary |-
-        UFF0Ykk2K1RGV0xnQWh0MWZvU2o1UT09
-      !binary "VmFyeQ==":
-      - !binary |-
-        Kg==
-      !binary "WC1MaS1Gb3JtYXQ=":
-      - !binary |-
-        anNvbg==
-      !binary "Q29udGVudC1UeXBl":
-      - !binary |-
-        YXBwbGljYXRpb24vanNvbjtjaGFyc2V0PVVURi04
-      !binary "Q29udGVudC1FbmNvZGluZw==":
-      - !binary |-
-        Z3ppcA==
-      !binary "RGF0ZQ==":
-      - !binary |-
-        V2VkLCAzMCBKdWwgMjAxNCAyMzo1MDowMiBHTVQ=
-      !binary "WC1MaS1GYWJyaWM=":
-      - !binary |-
-        UFJPRC1FTEE0
-      !binary "VHJhbnNmZXItRW5jb2Rpbmc=":
-      - !binary |-
-        Y2h1bmtlZA==
-      !binary "Q29ubmVjdGlvbg==":
-      - !binary |-
-        a2VlcC1hbGl2ZQ==
-      !binary "WC1MaS1Qb3A=":
-      - !binary |-
-        UFJPRC1FTEE0
-      !binary "U2V0LUNvb2tpZQ==":
-      - !binary |-
-        bGlkYz0iYj1MQjY2Omc9OTc6dT0zNzppPTE0MDY3NjIxOTk6dD0xNDA2ODIw
-        MzgwOnM9MjgyNTI2MTMwMSI7IEV4cGlyZXM9VGh1LCAzMSBKdWwgMjAxNCAx
-        NToyNjoyMCBHTVQ7IGRvbWFpbj0ubGlua2VkaW4uY29tOyBQYXRoPS8=
+      Server:
+      - Apache-Coyote/1.1
+      X-Li-Request-Id:
+      - RO7WMW5H97
+      X-Li-Uuid:
+      - 1pXw+JTY4cNdoULsHPpsNA==
+      Vary:
+      - "*"
+      X-Li-Format:
+      - json
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Tue, 29 Jul 2014 22:42:17 GMT
+      X-Li-Fabric:
+      - PROD-ELA4
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Li-Pop:
+      - PROD-ELA4
+      Set-Cookie:
+      - lidc="b=LB66:g=95:u=37:i=1406657453:t=1406743853:s=2424976016"; Expires=Wed,
+        30 Jul 2014 18:10:53 GMT; domain=.linkedin.com; Path=/
     body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIAAAAAAAAAKrmUlBQii/JL0nMUbJSMNQBccsSc0pTi4HcaKWMkpICK339
-        XL1kvZy87BS9nMzklDy95Pxc/dyCIhCu0DeINyhzNA4JTHGMCvUvDSjKLg51
-        y0kLccvOKfDMLU3OSS0OTTYvTUrKM9CtSEsr8g4r9DL1dvFxSa3wjzJUiuWq
-        BQgQAAD//2KidoqDAAAA
+      encoding: UTF-8
+      string: ! "{\n  \"_total\": 1,\n  \"values\": [\"http://m.c.lnkd.licdn.com/mpr/mprx/0_0vA3TQdAZUOuPrksUFlfTFklpImuclesUc7ubbn0-xffrKVqJ5KDLDexOZ1\"]\n}"
     http_version: 
-  recorded_at: Wed, 30 Jul 2014 23:50:01 GMT
+  recorded_at: Thu, 31 Jul 2014 00:00:08 GMT
 recorded_with: VCR 2.9.2
