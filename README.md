@@ -1,4 +1,5 @@
 # LinkedIn OAuth 2.0
+[![Gem Version](https://badge.fury.io/rb/linkedin-oauth2.svg)](http://badge.fury.io/rb/linkedin-oauth2)
 [![Build Status](https://travis-ci.org/emorikawa/linkedin-oauth2.svg?branch=master)](https://travis-ci.org/emorikawa/linkedin-oauth2)
 [![Coverage Status](https://coveralls.io/repos/emorikawa/linkedin-oauth2/badge.png)](https://coveralls.io/r/emorikawa/linkedin-oauth2)
 [![Code Climate](https://codeclimate.com/github/emorikawa/linkedin-oauth2/badges/gpa.svg)](https://codeclimate.com/github/emorikawa/linkedin-oauth2)
