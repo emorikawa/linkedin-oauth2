@@ -1,0 +1,67 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.linkedin.com/v1/people/~/skills?oauth2_access_token=dummy_access_token&secure-urls=true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Li-Format:
+      - json
+      User-Agent:
+      - Faraday v0.9.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+  response:
+    status:
+      code: 200
+      message: !binary |-
+        T0s=
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      X-Li-Request-Id:
+      - RO7WMW5H97
+      X-Li-Uuid:
+      - 1pXw+JTY4cNdoULsHPpsNA==
+      Vary:
+      - "*"
+      X-Li-Format:
+      - json
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Tue, 29 Jul 2014 22:42:17 GMT
+      X-Li-Fabric:
+      - PROD-ELA4
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Li-Pop:
+      - PROD-ELA4
+      Set-Cookie:
+      - lidc="b=LB66:g=95:u=37:i=1406657453:t=1406743853:s=2424976016"; Expires=Wed,
+        30 Jul 2014 18:10:53 GMT; domain=.linkedin.com; Path=/
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "total": "2",
+          "all" : [
+            {
+              "id" : 1, 
+              "skill" : { "name" : "Information Architecture" }
+            },
+            {
+              "id" : 2, 
+              "skill" : { "name" : "Ruby on Rails" }
+            }
+          ]
+        }
+    http_version: 
+  recorded_at: Thu, 31 Jul 2014 00:00:08 GMT
+recorded_with: VCR 2.9.2

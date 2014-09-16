@@ -88,6 +88,15 @@ module LinkedIn
       get(path, options)
     end
 
+    # Retrieve the skills
+    #
+    # Permissions: r_fullprofile
+    def skills(id={}, options={})
+      options = parse_id(id, options)
+      path = "#{profile_path(options, false)}/skills"
+      get(path, options)
+    end     
+
 
     protected ############################################################
 
