@@ -178,4 +178,12 @@ describe LinkedIn::People do
       expect(result["values"][0] =~ URI::regexp).to_not be_nil
     end
   end
+
+  it "grabs skills" do
+    VCR.use_cassette("people profile skills") do
+      result = api.skills
+      verify result
+      expect(result["all"].length).to eq 2
+    end
+  end  
 end
