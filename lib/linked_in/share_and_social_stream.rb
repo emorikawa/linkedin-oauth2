@@ -84,7 +84,7 @@ module LinkedIn
     def add_share(share)
       path = "/people/~/shares"
       defaults = {visibility: {code: "anyone"}}
-      post(path, defaults.merge(share))
+      post(path, MultiJson.dump(defaults.merge(share)), "Content-Type" => "application/json")
     end
 
     # Create a comment on an update from the authenticated user
