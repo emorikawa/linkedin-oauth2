@@ -56,6 +56,40 @@ module LinkedIn
       get(path, options)
     end
 
+    # Retrieve historical statistics about followers for a particular company page
+    #
+    # Permissions: rw_company_admin
+    #
+    # @see http://developer.linkedin.com/historical-company-statistics#historicalfollowerstatistics
+    #
+    # @macro company_path_options
+    # @option options [String] :start-timestamp
+    # @option options [String] :end-timestamp
+    # @option options [String] :time-granularity
+    # @return [LinkedIn::Mash]
+    def company_historical_follow_statistics(options = {})
+      path = "#{company_path(options)}/historical-follow-statistics"
+      get(path, options)
+    end
+
+    # Retrieve historical statistics about followers for a particular company page
+    #
+    # Permissions: rw_company_admin
+    #
+    # @see https://developer.linkedin.com/historical-company-statistics#historicalupdatestatistics
+    #
+    # @macro company_path_options
+    # @option options [String] :start-timestamp
+    # @option options [String] :end-timestamp
+    # @option options [String] :time-granularity
+    # @option options [String] :update-key
+    # @option options [Array]  :fields
+    # @return [LinkedIn::Mash]
+    def company_historical_status_update_statistics(options = {})
+      path = "#{company_path(options)}/historical-status-update-statistics"
+      get(path, options)
+    end
+
     # Retrieve comments on a particular company update:
     #
     # @see http://developer.linkedin.com/reading-company-shares
