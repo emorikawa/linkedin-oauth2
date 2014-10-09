@@ -1,3 +1,5 @@
+Faraday::Response.register_middleware :raise_error_orig => Faraday::Response::RaiseError
+
 module LinkedIn
   # Used to perform requests against LinkedIn's API.
   class Connection < ::Faraday::Connection
@@ -17,7 +19,7 @@ module LinkedIn
       # the same param to certain endpoints (like the search API).
       self.options.params_encoder = ::Faraday::FlatParamsEncoder
 
-      self.response :raise_error
+      self.response :raise_error_orig
     end
 
 
