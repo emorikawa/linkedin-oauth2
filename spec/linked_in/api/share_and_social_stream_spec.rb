@@ -57,4 +57,17 @@ describe LinkedIn::ShareAndSocialStream do
     expect(response.body).to eq ""
     expect(response.status).to eq 201
   end
+  
+  context 'throttling' do
+    it 'throws the right exception' do
+      stub_request(:post, "https://api.linkedin.com/v1/people/~/shares?oauth2_access_token=#{access_token}")
+        .to_return(
+          body: "{\n  \"errorCode\": 0,\n  \"message\": \"Throttle limit for calls to this resource is reached.\",\n  \"requestId\": \"M784AXE9MJ\",\n  \"status\": 403,\n  \"timestamp\": 1412871058321\n}",
+          status: 403
+        )
+        
+      err_msg = LinkedIn::ErrorMessages.throttled
+      expect {api.add_share(:comment => "Testing, 1, 2, 3")}.to raise_error(LinkedIn::ThrottleError, err_msg)
+    end
+  end
 end
