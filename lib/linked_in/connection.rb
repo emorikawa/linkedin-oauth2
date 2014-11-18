@@ -17,7 +17,7 @@ module LinkedIn
       # the same param to certain endpoints (like the search API).
       self.options.params_encoder = ::Faraday::FlatParamsEncoder
 
-      self.response :raise_error
+      self.response :linkedin_raise_error
     end
 
 

@@ -1,6 +1,7 @@
 require "oauth2"
 
 require "linked_in/errors"
+require "linked_in/raise_error"
 require "linked_in/version"
 require "linked_in/configuration"
 

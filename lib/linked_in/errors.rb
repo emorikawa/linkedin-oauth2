@@ -5,6 +5,9 @@ module LinkedIn
 
   # Raised when we know requests will be malformed
   class InvalidRequest < StandardError; end
+  
+  # Raised when we get a throttle error from the API
+  class ThrottleError < StandardError; end
 
   # Raised when LinkedIn returns a non 400+ status code during an OAuth
   # request.
@@ -21,7 +24,8 @@ module LinkedIn
                   :no_auth_code,
                   :no_access_token,
                   :credentials_missing,
-                  :redirect_uri_mismatch
+                  :redirect_uri_mismatch,
+                  :throttled
     end
 
     @deprecated = "This has been deprecated by LinkedIn. Check https://developer.linkedin.com to see the latest available API calls"
@@ -34,6 +38,12 @@ module LinkedIn
 
     @credentials_missing = "Client credentials do not exist. Please either pass your client_id and client_secret to the LinkedIn::Oauth.new constructor or set them via LinkedIn.configure"
 
-    @redirect_uri_mismatch = "Your redirect_uri must be exactly the same as the one used to generated your auth code url"
+    @redirect_uri_mismatch = "Throttle limit for calls to this resource is reached"
+    
+    def klass
+      
+    end
+    
+    
   end
 end

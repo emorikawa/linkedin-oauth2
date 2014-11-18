@@ -38,6 +38,11 @@ module LinkedIn
       path = "#{profile_path(options)}/network/updates"
       get(path, {type: "SHAR", scope: "self"}.merge(options))
     end
+    
+    def share(update_key, options={})
+      path = "#{profile_path(options)}/network/updates/key=#{update_key}"
+      get(path)
+    end
 
     # Retrieve all comments for a particular network update
     #
