@@ -96,7 +96,7 @@ module LinkedIn
     def add_company_share(company_id, share)
       path = "/companies/#{company_id}/shares"
       defaults = {visibility: {code: "anyone"}}
-      post(path, defaults.merge(share))
+      post(path, MultiJson.dump(defaults.merge(share)), "Content-Type" => "application/json")
     end
 
     # (Create) authenticated user starts following a company
