@@ -56,4 +56,19 @@ describe LinkedIn::Companies do
     expect(response.body).to eq ""
     expect(response.status).to eq 201
   end
+
+  it "should load historical follow statistics" do
+    stub("https://api.linkedin.com/v1/companies/123456/historical-follow-statistics?start-timestamp=1378252800000&time-granularity=day&")
+    expect(
+      api.company_historical_follow_statistics(:id => 123456, :"start-timestamp" => 1378252800000, :"time-granularity" => "day")
+    ).to be_an_instance_of(LinkedIn::Mash)
+  end
+
+  it "should load historical status update statistics" do
+    url = "https://api.linkedin.com/v1/companies/123456/historical-status-update-statistics:(time,like-count,share-count)?oauth2_access_token=#{access_token}&start-timestamp=1378252800000&time-granularity=month"
+    stub_request(:get, url).to_return(body: '{}')
+    expect(
+      api.company_historical_status_update_statistics(:id => 123456, :"start-timestamp" => 1378252800000, :"time-granularity" => "month", :fields => ['time', 'like-count', 'share-count'])
+    ).to be_an_instance_of(LinkedIn::Mash)
+  end
 end
