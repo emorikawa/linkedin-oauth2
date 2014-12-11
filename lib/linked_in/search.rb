@@ -15,8 +15,8 @@ module LinkedIn
     # You can use the same API to search through Companies and Jobs.
     #
     # @!macro search_options
-    #   @options opts [String] :type either "people", "companies", or
-    #     "jobs"
+    #   @options opts [String] :type either "people", "company", or
+    #     "job"
     #   @options opts [String] :keywords various keywords to search for
     #   @options opts [Array, Hash] :fields fields to fetch. The
     #     list of fields can be found at
@@ -35,7 +35,7 @@ module LinkedIn
     # @overload search(keyword_string, type)
     #   Keyword search through people
     #   @param [String] keywords search keywords
-    #   @param [String] type either "people", "companies", or "jobs"
+    #   @param [String] type either "people", "company", or "job"
     # @overload search(opts)
     #   Searches based on various options
     #   @param [Hash] opts search options
@@ -44,7 +44,7 @@ module LinkedIn
     #   Searches for a type based on various options
     #   @param [Hash] opts search options
     #   @macro search_options
-    #   @param [String] type either "people", "companies", or "jobs"
+    #   @param [String] type either "people", "company", or "job"
     def search(options={}, type='people')
       options, type = prepare_options(options, type)
       path = "/#{type.to_s}-search"
