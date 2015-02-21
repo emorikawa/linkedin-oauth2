@@ -252,7 +252,7 @@ api.join_group(12345)
 
 Detailed overviews of Company information
 
-See https://developer.linkedin.com/documents/companies
+See https://developer.linkedin.com/docs/company-pages
 
 ```ruby
 # Company info

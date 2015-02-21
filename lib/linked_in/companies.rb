@@ -1,8 +1,8 @@
 module LinkedIn
   # Companies API
   #
-  # @see http://developer.linkedin.com/documents/companies Companies API
-  # @see http://developer.linkedin.com/documents/company-lookup-api-and-fields Company Fields
+  # @see https://developer.linkedin.com/docs/company-pages Companies API
+  # @see https://developer.linkedin.com/docs/fields/company-profile Company Fields
   #
   # The following API actions do not have corresponding methods in
   # this module
@@ -16,8 +16,9 @@ module LinkedIn
 
     # Retrieve a Company Profile
     #
-    # @see http://developer.linkedin.com/documents/company-lookup-api-and-fields
-    #
+    # @see https://developer.linkedin.com/docs/company-pages#company_profile
+    # @see https://developer.linkedin.com/docs/fields/company-profile
+    # 
     # @macro company_path_options
     # @option options [String] :scope
     # @option options [String] :type
@@ -31,7 +32,7 @@ module LinkedIn
 
     # Retrieve a feed of event items for a Company
     #
-    # @see http://developer.linkedin.com/reading-company-shares
+    # @see https://developer.linkedin.com/docs/company-pages#company_updates
     #
     # @macro company_path_options
     # @option options [String] :event-type
@@ -47,7 +48,7 @@ module LinkedIn
     #
     # Permissions: rw_company_admin
     #
-    # @see http://developer.linkedin.com/documents/company-statistics
+    # @see https://developer.linkedin.com/docs/company-pages#statistics
     #
     # @macro company_path_options
     # @return [LinkedIn::Mash]
@@ -60,7 +61,7 @@ module LinkedIn
     #
     # Permissions: rw_company_admin
     #
-    # @see http://developer.linkedin.com/historical-company-statistics#historicalfollowerstatistics
+    # @see https://developer.linkedin.com/docs/company-pages#historical_followers
     #
     # @macro company_path_options
     # @option options [String] :start-timestamp
@@ -76,7 +77,7 @@ module LinkedIn
     #
     # Permissions: rw_company_admin
     #
-    # @see https://developer.linkedin.com/historical-company-statistics#historicalupdatestatistics
+    # @see https://developer.linkedin.com/docs/company-pages#historical_updates
     #
     # @macro company_path_options
     # @option options [String] :start-timestamp
@@ -92,7 +93,7 @@ module LinkedIn
 
     # Retrieve comments on a particular company update:
     #
-    # @see http://developer.linkedin.com/reading-company-shares
+    # @see https://developer.linkedin.com/docs/company-pages#get_update_comments
     #
     # @param [String] update_key a update/update-key representing a
     #   particular company update
@@ -105,7 +106,7 @@ module LinkedIn
 
     # Retrieve likes on a particular company update:
     #
-    # @see http://developer.linkedin.com/reading-company-shares
+    # @see https://developer.linkedin.com/docs/company-pages#get_update_likes
     #
     # @param [String] update_key a update/update-key representing a
     #   particular company update
@@ -121,8 +122,7 @@ module LinkedIn
     #
     # Permissions: rw_company_admin
     #
-    # @see http://developer.linkedin.com/creating-company-shares
-    # @see http://developer.linkedin.com/documents/targeting-company-shares Targeting Company Shares
+    # @see https://developer.linkedin.com/docs/company-pages#company_share
     #
     # @param [String] company_id Company ID
     # @macro share_input_fields
@@ -135,7 +135,7 @@ module LinkedIn
 
     # (Create) authenticated user starts following a company
     #
-    # @see http://developer.linkedin.com/documents/company-follow-and-suggestions
+    # @see https://developer.linkedin.com/docs/company-pages
     #
     # @param [String] company_id Company ID
     # @return [void]
@@ -146,7 +146,7 @@ module LinkedIn
 
     # (Destroy) authenticated user stops following a company
     #
-    # @see http://developer.linkedin.com/documents/company-follow-and-suggestions
+    # @see https://developer.linkedin.com/docs/company-pages
     #
     # @param [String] company_id Company ID
     # @return [void]
@@ -155,9 +155,7 @@ module LinkedIn
       delete(path)
     end
 
-
     private ##############################################################
-
 
     def company_path(options)
       path = "/companies"
@@ -171,7 +169,7 @@ module LinkedIn
       elsif name = options.delete(:name)
         path += "/universal-name=#{CGI.escape(name)}"
       elsif is_admin = options.delete(:is_admin)
-        path += "?is-company-admin=#{CGI.escape(is_admin)}"
+        path += "?is-company-admin=#{is_admin}"
       else
         path += "/~"
       end
