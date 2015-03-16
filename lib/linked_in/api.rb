@@ -37,6 +37,7 @@ module LinkedIn
                              :post_group_discussion
 
     def_delegators :@companies, :company,
+                                :company_search,
                                 :follow_company,
                                 :company_updates,
                                 :unfollow_company,

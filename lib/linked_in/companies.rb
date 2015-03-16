@@ -29,6 +29,23 @@ module LinkedIn
       get(path, options)
     end
 
+    # Perform a name-based Company search sorted by relevance
+    #
+    # @see https://developer-programs.linkedin.com/documents/company-search
+    #
+    # @macro company_path_options
+    # @option options [String] :scope
+    # @option options [String] :type
+    # @option options [String] :count
+    # @option options [String] :start
+    # @return [LinkedIn::Mash]
+    def company_search(options = {})
+      path = "/company-search:(companies:(id,name,universal-name,website-url,logo-url,square_logo_url))?keywords=#{CGI.escape(options[:keyword])}&sort=relevance"
+      # binding.pry
+      results = get(path, options)
+      # binding.pry
+    end
+
     # Retrieve a feed of event items for a Company
     #
     # @see http://developer.linkedin.com/reading-company-shares
