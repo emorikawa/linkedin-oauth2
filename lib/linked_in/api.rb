@@ -48,7 +48,8 @@ module LinkedIn
                                 :company_updates_likes,
                                 :company_updates_comments
 
-    def_delegators :@communications, :send_message
+    def_delegators :@communications, :send_message,
+                                     :invite_by_email
 
     def_delegators :@share_and_social_stream, :shares,
                                               :share,

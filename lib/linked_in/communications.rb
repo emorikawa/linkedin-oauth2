@@ -36,5 +36,30 @@ module LinkedIn
 
       post(path, MultiJson.dump(message), "Content-Type" => "application/json")
     end
+
+    def invite_by_email(email, first_name, last_name, **options)
+      path = "/people/~/mailbox"
+
+      message = {
+        "subject" => options[:subject] || "Invitation to connect",
+        "body" => options[:body] || "Please join my professional network on LinkedIn.",
+        "recipients" => {
+          "values" => [{
+            "person" => {
+              "_path" => "/people/email=#{email}",
+              "first-name" => first_name,
+              "last-name" => last_name
+            }
+          }]
+        },
+        "item-content" => {
+          "invitation-request" => {
+            "connect-type" => "friend"
+          }
+        }
+      }
+
+      post(path, message.to_json, "Content-Type" => "application/json")
+    end
   end
 end
