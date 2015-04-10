@@ -38,7 +38,7 @@ module LinkedIn
       path = "#{profile_path(options)}/network/updates"
       get(path, {type: "SHAR", scope: "self"}.merge(options))
     end
-    
+
     def share(update_key, options={})
       path = "#{profile_path(options)}/network/updates/key=#{update_key}"
       get(path)
@@ -87,9 +87,11 @@ module LinkedIn
     # @macro share_input_fields
     # @return [void]
     def add_share(share)
-      path = "/people/~/shares"
+      path     = "/people/~/shares"
       defaults = {visibility: {code: "anyone"}}
-      post(path, MultiJson.dump(defaults.merge(share)), "Content-Type" => "application/json")
+      body     = MultiJson.dump(defaults.merge(share))
+
+      post(path, body, "Content-Type" => "application/json", "x-li-format" => "json")
     end
 
     # Create a comment on an update from the authenticated user
