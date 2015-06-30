@@ -9,6 +9,12 @@ module LinkedIn
   # Raised when we get a throttle error from the API
   class ThrottleError < StandardError; end
 
+  # Raised When LinkedIn request params are missing
+  class ArgumentError < StandardError; end
+
+  # Raised When LinkedIn returns a 403 for a REST API call
+  class PermissionsError < StandardError; end
+
   # Raised when LinkedIn returns a non 400+ status code during an OAuth
   # request.
   class OAuthError < OAuth2::Error; end
@@ -39,6 +45,12 @@ module LinkedIn
     @credentials_missing = "Client credentials do not exist. Please either pass your client_id and client_secret to the LinkedIn::Oauth.new constructor or set them via LinkedIn.configure"
 
     @redirect_uri_mismatch = "Throttle limit for calls to this resource is reached"
+
+    @arguments_malformed = "The arguments for this REST API call are malformed"
+
+    @argument_missing = "An argument is missing for this REST API call"
+
+    @not_permitted = "This user is not permitted to make this REST API call"
     
     def klass
       

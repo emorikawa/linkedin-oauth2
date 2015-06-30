@@ -57,7 +57,37 @@ describe LinkedIn::ShareAndSocialStream do
     expect(response.body).to eq ""
     expect(response.status).to eq 201
   end
+
+  context 'argument missing' do
+    it "throws the right exception" do
+      stub_request(:post, "https://api.linkedin.com/v1/people/~/shares?oauth2_access_token=#{access_token}").to_return(
+          body: "{\n  \"errorCode\": 0,\n  \"message\": \"submitted-url is missing\",\n  \"requestId\": \"M784AXE9MJ\",\n  \"status\": 400,\n  \"timestamp\": 1412871058321\n}",
+          status: 400
+        )
+      expect {api.add_share(comment: "Testing, 1, 2, 3")}.to raise_error(LinkedIn::ArgumentError)
+    end
+  end
+
+  context 'invalid request - arguments malformed' do
+    it "throws the right exception" do
+      stub_request(:post, "https://api.linkedin.com/v1/people/~/shares?oauth2_access_token=#{access_token}").to_return(
+          body: "{\n  \"errorCode\": 0,\n  \"message\": \"\",\n  \"requestId\": \"M784AXE9MJ\",\n  \"status\": 400,\n  \"timestamp\": 1412871058321\n}",
+          status: 400
+        )
+      expect {api.add_share(:comment => "Testing, 1, 2, 3")}.to raise_error(LinkedIn::InvalidRequest)
+    end
+  end
   
+  context 'action not permitted for this user' do
+    it "throws the right exception" do
+      stub_request(:post, "https://api.linkedin.com/v1/people/~/shares?oauth2_access_token=#{access_token}").to_return(
+          body: "{\n  \"errorCode\": 0,\n  \"message\": \"\",\n  \"requestId\": \"M784AXE9MJ\",\n  \"status\": 403,\n  \"timestamp\": 1412871058321\n}",
+          status: 403
+        )
+      expect {api.add_share(:comment => "Testing, 1, 2, 3")}.to raise_error(LinkedIn::PermissionsError)
+    end
+  end
+
   context 'throttling' do
     it 'throws the right exception' do
       stub_request(:post, "https://api.linkedin.com/v1/people/~/shares?oauth2_access_token=#{access_token}")
