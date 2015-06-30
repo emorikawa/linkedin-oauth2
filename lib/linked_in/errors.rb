@@ -45,6 +45,12 @@ module LinkedIn
     @credentials_missing = "Client credentials do not exist. Please either pass your client_id and client_secret to the LinkedIn::Oauth.new constructor or set them via LinkedIn.configure"
 
     @redirect_uri_mismatch = "Throttle limit for calls to this resource is reached"
+
+    @arguments_malformed = "The arguments for this REST API call are malformed"
+
+    @argument_missing = "An argument is missing for this REST API call"
+
+    @not_permitted = "This user is not permitted to make this REST API call"
     
     def klass
       
