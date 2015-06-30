@@ -9,6 +9,12 @@ module LinkedIn
   # Raised when we get a throttle error from the API
   class ThrottleError < StandardError; end
 
+  # Raised When LinkedIn request params are missing
+  class ArgumentError < StandardError; end
+
+  # Raised When LinkedIn returns a 403 for a REST API call
+  class PermissionsError < StandardError; end
+
   # Raised when LinkedIn returns a non 400+ status code during an OAuth
   # request.
   class OAuthError < OAuth2::Error; end
