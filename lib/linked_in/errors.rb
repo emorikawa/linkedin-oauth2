@@ -1,4 +1,12 @@
 module LinkedIn
+  module Errors
+    class UnauthorizedError < StandardError; end
+    class GeneralError < StandardError; end
+    class AccessDeniedError < StandardError; end
+    class UnavailableError < StandardError; end
+    class InformLinkedInError < StandardError; end
+    class NotFoundError < StandardError; end
+  end
 
   # Raised when users call a deprecated function
   class Deprecated < StandardError; end

@@ -3,6 +3,19 @@ module LinkedIn
   # LinkedIn::Mash inherits from Hashie::Mash
   class Mash < ::Hashie::Mash
 
+    def self.from_response(response)
+      if response['x-li-format'] == 'xml' or /xml/.match response['Content-Type']
+        from_xml(response.body)
+      else
+        from_json(response.body)
+      end
+    end
+
+    def self.from_xml(xml_string)
+      result_hash = Hash.from_xml(xml_string.gsub("\n", ""))
+      new(result_hash[result_hash.keys.first])
+    end
+
     # a simple helper to convert a json string to a Mash
     def self.from_json(json_string)
       result_hash = JSON.load(json_string)
