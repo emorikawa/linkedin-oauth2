@@ -39,22 +39,19 @@ describe LinkedIn::Companies do
   it "should be able to share a new company status" do
     stub_request(:post, "https://api.linkedin.com/v1/companies/123456/shares?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
     response = api.add_company_share("123456", { comment: "Testing, 1, 2, 3" })
-    expect(response.body).to eq ""
-    expect(response.status).to eq 201
+    expect(response.body).to eq nil
   end
 
   it "should be able to follow a company" do
     stub_request(:post, "https://api.linkedin.com/v1/people/~/following/companies?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
     response = api.follow_company(1586)
-    expect(response.body).to eq ""
-    expect(response.status).to eq 201
+    expect(response.body).to eq nil
   end
 
   it "should be able to unfollow a company" do
     stub_request(:delete, "https://api.linkedin.com/v1/people/~/following/companies/id=1586?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
     response = api.unfollow_company(1586)
-    expect(response.body).to eq ""
-    expect(response.status).to eq 201
+    expect(response.body).to eq nil
   end
 
   it "should load historical follow statistics" do

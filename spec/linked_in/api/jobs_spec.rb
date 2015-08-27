@@ -27,7 +27,6 @@ describe LinkedIn::Jobs, helpers: :api do
   it "should be able to add a bookmark" do
     stub_request(:post, "https://api.linkedin.com/v1/people/~/job-bookmarks?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
     response = api.add_job_bookmark(id: 1452577)
-    expect(response.body).to eq ""
-    expect(response.status).to eq 201
+    expect(response.body).to eq nil
   end
 end
