@@ -4,7 +4,7 @@ module LinkedIn
   class RaiseError < Faraday::Response::RaiseError
     def on_complete(response)
       status_code = response.status.to_i
-      parsed_response = Mash.from_response(response)
+      parsed_response = Mash.from_response(response) if status_code != 200
       case status_code
         when 401
           raise LinkedIn::Errors::UnauthorizedError.new(parsed_response), "(#{parsed_response.status}): #{parsed_response.message}"
