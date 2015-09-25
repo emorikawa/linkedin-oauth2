@@ -7,7 +7,6 @@ describe LinkedIn::Communications do
   it "should be able to send a message" do
     stub_request(:post, "https://api.linkedin.com/v1/people/~/mailbox?oauth2_access_token=dummy_access_token").to_return(body: "", status: 201)
     response = api.send_message("subject", "body", ["recip1", "recip2"])
-    expect(response.body).to eq ""
-    expect(response.status).to eq 201
+    expect(response.body).to eq nil
   end
 end

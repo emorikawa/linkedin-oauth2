@@ -43,22 +43,23 @@ module LinkedIn
 
     def get(path, options={})
       url, params, headers = prepare_connection_params(path, options)
-
       response = @connection.get(url, params, headers)
-
-      return Mash.from_json(response.body)
+      return Mash.from_response(response)
     end
 
     def post(path=nil, body=nil, headers=nil, &block)
-      @connection.post(prepend_prefix(path), body, headers, &block)
+      response = @connection.post(prepend_prefix(path), body, headers, &block)
+      return Mash.from_response(response)
     end
 
     def put(path=nil, body=nil, headers=nil, &block)
-      @connection.put(prepend_prefix(path), body, headers, &block)
+      response = @connection.put(prepend_prefix(path), body, headers, &block)
+      return Mash.from_response(response)
     end
 
     def delete(path=nil, params=nil, headers=nil, &block)
-      @connection.delete(prepend_prefix(path), params, headers, &block)
+      response = @connection.delete(prepend_prefix(path), params, headers, &block)
+      return Mash.from_response(response)
     end
 
     def deprecated

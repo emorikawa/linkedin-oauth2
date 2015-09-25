@@ -32,8 +32,7 @@ describe LinkedIn::Groups do
     stub_request(:put, "https://api.linkedin.com/v1/people/~/group-memberships/123?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
 
     response = api.join_group(123)
-    expect(response.body).to eq ""
-    expect(response.status).to eq 201
+    expect(response.body).to eq nil
   end
 
   it "should be able to list a group profile" do
@@ -49,7 +48,6 @@ describe LinkedIn::Groups do
   it "should be able to share a new group status" do
     stub_request(:post, "https://api.linkedin.com/v1/groups/1/posts?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
     response = api.add_group_share(1, comment: "Testing, 1, 2, 3")
-    expect(response.body).to eq ""
-    expect(response.status).to eq 201
+    expect(response.body).to eq nil
   end
 end

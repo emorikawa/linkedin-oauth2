@@ -1,5 +1,5 @@
 module LinkedIn
-  class API
+  class API < APIResource
 
     attr_accessor :access_token
 

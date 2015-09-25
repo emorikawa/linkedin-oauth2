@@ -27,8 +27,7 @@ describe LinkedIn::ShareAndSocialStream do
   it "should be able to share a new status" do
     stub_request(:post, "https://api.linkedin.com/v1/people/~/shares?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
     response = api.add_share(:comment => "Testing, 1, 2, 3")
-    expect(response.body).to eq ""
-    expect(response.status).to eq 201
+    expect(response.body).to eq nil
   end
 
   it "returns the shares for a person" do
@@ -39,23 +38,20 @@ describe LinkedIn::ShareAndSocialStream do
   it "should be able to comment on network update" do
     stub_request(:post, "https://api.linkedin.com/v1/people/~/network/updates/key=SOMEKEY/update-comments?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
     response = api.update_comment('SOMEKEY', "Testing, 1, 2, 3")
-    expect(response.body).to eq ""
-    expect(response.status).to eq 201
+    expect(response.body).to eq nil
   end
 
   it "should be able to like a network update" do
     stub_request(:put, "https://api.linkedin.com/v1/people/~/network/updates/key=SOMEKEY/is-liked?oauth2_access_token=#{access_token}").
       with(:body => "true").to_return(body: "", status: 201)
     response = api.like_share('SOMEKEY')
-    expect(response.body).to eq ""
-    expect(response.status).to eq 201
+    expect(response.body).to eq nil
   end
 
   it "should be able to unlike a network update" do
     stub_request(:put, "https://api.linkedin.com/v1/people/~/network/updates/key=SOMEKEY/is-liked?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
     response = api.unlike_share('SOMEKEY')
-    expect(response.body).to eq ""
-    expect(response.status).to eq 201
+    expect(response.body).to eq nil
   end
   
   context 'throttling' do
@@ -67,7 +63,7 @@ describe LinkedIn::ShareAndSocialStream do
         )
         
       err_msg = LinkedIn::ErrorMessages.throttled
-      expect {api.add_share(:comment => "Testing, 1, 2, 3")}.to raise_error(LinkedIn::ThrottleError, err_msg)
+      expect {api.add_share(:comment => "Testing, 1, 2, 3")}.to raise_error(LinkedIn::Errors::AccessDeniedError, err_msg)
     end
   end
 end
