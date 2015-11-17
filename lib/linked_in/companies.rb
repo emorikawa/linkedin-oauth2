@@ -23,6 +23,7 @@ module LinkedIn
     # @option options [String] :type
     # @option options [String] :count
     # @option options [String] :start
+    # @option options [String] :profile_fields
     # @return [LinkedIn::Mash]
     def company(options = {})
       path = company_path(options)
@@ -182,7 +183,11 @@ module LinkedIn
       if domain = options.delete(:domain)
         path += "?email-domain=#{CGI.escape(domain)}"
       elsif id = options.delete(:id)
-        path += "/#{id}"
+        if profile_fields = options.delete(:profile_fields)
+          path += "/#{id}:(#{profile_fields})"
+        else
+          path += "/#{id}"
+        end
       elsif url = options.delete(:url)
         path += "/url=#{CGI.escape(url)}"
       elsif name = options.delete(:name)
