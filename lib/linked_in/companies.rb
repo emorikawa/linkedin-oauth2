@@ -107,6 +107,19 @@ module LinkedIn
       get(path, options)
     end
 
+    # Retrieve a specific company update:
+    #
+    # @see http://developer.linkedin.com/reading-company-shares
+    #
+    # @param [String] update_key a update/update-key representing a
+    #   particular company update
+    # @macro company_path_options
+    # @return [LinkedIn::Mash]
+    def company_update(update_key, options={})
+      path = "#{company_path(options)}/updates/key=#{update_key}"
+      get(path, options)
+    end
+
     # Retrieve comments on a particular company update:
     #
     # @see http://developer.linkedin.com/reading-company-shares

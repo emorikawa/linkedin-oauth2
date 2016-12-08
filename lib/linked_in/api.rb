@@ -45,6 +45,7 @@ module LinkedIn
                                 :company_statistics,
                                 :company_historical_follow_statistics,
                                 :company_historical_status_update_statistics,
+                                :company_update,
                                 :company_updates_likes,
                                 :company_updates_comments
 
