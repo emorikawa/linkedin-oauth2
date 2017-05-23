@@ -79,7 +79,10 @@ module LinkedIn
 
     def default_headers
       # https://developer.linkedin.com/documents/api-requests-json
-      return {"x-li-format" => "json"}
+      return {
+        "x-li-format" => "json",
+        "x-li-src" => "msdk"
+      }
     end
 
     def verify_access_token!(access_token)
