@@ -74,12 +74,17 @@ module LinkedIn
 
     def default_params
       # https//developer.linkedin.com/documents/authentication
-      return {oauth2_access_token: @access_token.token}
+      return {}
     end
 
     def default_headers
       # https://developer.linkedin.com/documents/api-requests-json
-      return {"x-li-format" => "json"}
+      #
+      access_token_header = "Bearer #{@access_token.token}"
+      return {
+        "Authorization" => access_token_header,
+        "x-li-format" => "json"
+      }
     end
 
     def verify_access_token!(access_token)
