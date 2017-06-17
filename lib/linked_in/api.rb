@@ -83,8 +83,7 @@ module LinkedIn
       access_token_header = "Bearer #{@access_token.token}"
       return {
         "Authorization" => access_token_header,
-        "x-li-format" => "json",
-        "x-li-src" => "msdk"
+        "x-li-format" => "json"
       }
     end
 
