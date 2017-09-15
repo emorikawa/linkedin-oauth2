@@ -1,12 +1,13 @@
 module LinkedIn
   class API
 
-    attr_accessor :access_token
+    attr_accessor :access_token, :options
 
-    def initialize(access_token=nil)
+    def initialize(access_token=nil, options={})
       access_token = parse_access_token(access_token)
       verify_access_token!(access_token)
       @access_token = access_token
+      @options = options
 
       @connection = LinkedIn::Connection.new params: default_params,
                                              headers: default_headers
@@ -60,6 +61,10 @@ module LinkedIn
                                               :update_comment,
                                               :network_updates
 
+    def mobile_sdk?
+      !!(options[:is_mobile_sdk] || options["is_mobile_sdk"])
+    end
+
     private ##############################################################
 
     def initialize_endpoints
@@ -74,12 +79,18 @@ module LinkedIn
 
     def default_params
       # https//developer.linkedin.com/documents/authentication
-      return {oauth2_access_token: @access_token.token}
+      mobile_sdk? ? {} : {oauth2_access_token: @access_token.token}
     end
 
     def default_headers
       # https://developer.linkedin.com/documents/api-requests-json
-      return {"x-li-format" => "json"}
+      mobile_sdk? ?
+        {
+          "x-li-format" => "json",
+          "x-li-src" => "msdk",
+          "Authorization": "Bearer #{@access_token.token}"
+        } :
+        {"x-li-format" => "json"}
     end
 
     def verify_access_token!(access_token)

@@ -38,4 +38,13 @@ describe LinkedIn::API do
 
     include_examples "test access token"
   end
+
+  context "With a string access token and `is_mobil_sdk` turned on" do
+    let(:access_token) { "dummy_access_token" }
+    let(:options) {{ is_mobile_sdk: true }}
+
+    subject {LinkedIn::API.new(access_token, options)}
+
+    include_examples "test access token"
+  end
 end
