@@ -37,7 +37,7 @@ describe LinkedIn::Companies do
   end
 
   it "should be able to share a new company status" do
-    stub_request(:post, "https://api.linkedin.com/v1/companies/123456/shares?oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
+    stub_request(:post, "https://api.linkedin.com/v1/companies/123456/shares?format=json&oauth2_access_token=#{access_token}").to_return(body: "", status: 201)
     response = api.add_company_share("123456", { comment: "Testing, 1, 2, 3" })
     expect(response.body).to eq ""
     expect(response.status).to eq 201
