@@ -67,7 +67,18 @@ describe LinkedIn::ShareAndSocialStream do
         )
 
       err_msg = LinkedIn::ErrorMessages.throttled
-      expect {api.add_share(:comment => "Testing, 1, 2, 3")}.to raise_error(LinkedIn::AccessDeniedError, err_msg)
+      expect {
+        api.add_share(:comment => "Testing, 1, 2, 3")
+      }.to raise_error(LinkedIn::AccessDeniedError, err_msg)
+
+      error = nil
+      begin
+        api.add_share(:comment => "Testing, 1, 2, 3")
+      rescue => e
+        error = e
+      end
+
+      expect(error.data["status"]).to eq 403
     end
   end
 end

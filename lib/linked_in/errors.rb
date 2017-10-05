@@ -1,32 +1,41 @@
 module LinkedIn
   # Thanks https://github.com/ResultadosDigitais/linkedin-oauth2 !
 
+  class Error < StandardError
+    attr_reader :data
+
+    def initialize(data)
+      @data = data
+      super
+    end
+  end
+
   # Raised when users call a deprecated function
-  class Deprecated < StandardError; end
+  class Deprecated < LinkedIn::Error; end
 
   # Raised when we know requests will be malformed and LinkedIn returns
   # a 400 status code
-  class InvalidRequest < StandardError; end
+  class InvalidRequest < LinkedIn::Error; end
 
   # Raised when LinkedIn returns a 401 status code during an API
   # request.
-  class UnauthorizedError < StandardError; end
+  class UnauthorizedError < LinkedIn::Error; end
 
   # Raised when LinkedIn returns a 403 status code during an API
   # request.
-  class AccessDeniedError < StandardError; end
+  class AccessDeniedError < LinkedIn::Error; end
 
   # Raised when LinkedIn returns a 404 status code during an API
   # request.
-  class NotFoundError < StandardError; end
+  class NotFoundError < LinkedIn::Error; end
 
   # Raised when LinkedIn returns a 500 status code during an API
   # request.
-  class InformLinkedInError < StandardError; end
+  class InformLinkedInError < LinkedIn::Error; end
 
   # Raised when LinkedIn returns a 502+ status code during an API
   # request.
-  class UnavailableError < StandardError; end
+  class UnavailableError < LinkedIn::Error; end
 
   # Raised when LinkedIn returns a non 400+ status code during an OAuth
   # request.
