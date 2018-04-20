@@ -14,6 +14,12 @@ module LinkedIn
   # [(contribute here)](https://github.com/emorikawa/linkedin-oauth2)
   class Companies < APIResource
 
+    # TODO LIv2 Need an entirely new Organization resource to supercede company.
+    def organization_acls(options = {})
+      path = "/organizationalEntityAcls"
+      get(path, options)
+    end
+
     # Retrieve a Company Profile
     #
     # @see http://developer.linkedin.com/documents/company-lookup-api-and-fields
@@ -145,7 +151,7 @@ module LinkedIn
     # @macro share_input_fields
     # @return [void]
     def add_company_share(company_id, share)
-      path = "/companies/#{company_id}/shares"
+      path = "/companies/#{company_id}/shares?format=json"
       defaults = {visibility: {code: "anyone"}}
       post(path, MultiJson.dump(defaults.merge(share)), "Content-Type" => "application/json")
     end
@@ -177,7 +183,7 @@ module LinkedIn
 
 
     def company_path(options)
-      path = "/companies"
+      path = "/organizations"
 
       if domain = options.delete(:domain)
         path += "?email-domain=#{CGI.escape(domain)}"

@@ -130,7 +130,7 @@ module LinkedIn
       elsif allow_multiple and (ids or urls)
         path += multiple_people_path(ids, urls)
       else
-        path += "/~"
+        path = "/me"
       end
     end
 
@@ -140,7 +140,7 @@ module LinkedIn
       elsif url
         return "/url=#{CGI.escape(url)}"
       else
-        return "/~"
+        return "/me"
       end
     end
 
@@ -150,16 +150,16 @@ module LinkedIn
       if urls.nil? then urls = [] end
 
       ids = ids.map do |id|
-        if is_self(id) then "~" else "id=#{id}" end
+        if is_self(id) then "me" else "id=#{id}" end
       end
       urls = urls.map do |url|
-        if is_self(url) then "~" else "url=#{CGI.escape(url)}" end
+        if is_self(url) then "me" else "url=#{CGI.escape(url)}" end
       end
       return "::(#{(ids+urls).join(",")})"
     end
 
     def is_self(str)
-      str == "self" or str == "~"
+      str == "self" or str == "me"
     end
   end
 end

@@ -46,7 +46,8 @@ module LinkedIn
                                 :company_historical_follow_statistics,
                                 :company_historical_status_update_statistics,
                                 :company_updates_likes,
-                                :company_updates_comments
+                                :company_updates_comments,
+                                :organization_acls
 
     def_delegators :@communications, :send_message
 
@@ -73,13 +74,15 @@ module LinkedIn
     end
 
     def default_params
+      # LIv2 TODO - Probably can just remove?
       # https//developer.linkedin.com/documents/authentication
-      return {oauth2_access_token: @access_token.token}
+      #return { oauth2_access_token: @access_token.token }
+      {}
     end
 
     def default_headers
       # https://developer.linkedin.com/documents/api-requests-json
-      return {"x-li-format" => "json"}
+      return {"x-li-format" => "json", "Authorization" => "Bearer #{@access_token.token}"}
     end
 
     def verify_access_token!(access_token)
