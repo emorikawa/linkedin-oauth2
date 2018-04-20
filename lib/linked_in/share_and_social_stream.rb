@@ -87,8 +87,9 @@ module LinkedIn
     # @macro share_input_fields
     # @return [void]
     def add_share(share)
-      path = "/people/~/shares?format=json"
-      defaults = {visibility: {code: "anyone"}}
+      path = "/shares"
+      # LIv2 TODO Probably should move distribution here? Similar to old visibility param?
+      defaults = {}
       post(path, MultiJson.dump(defaults.merge(share)), "Content-Type" => "application/json")
     end
 

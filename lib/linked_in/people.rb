@@ -102,7 +102,8 @@ module LinkedIn
 
 
     def get(path, options)
-      options[:"secure-urls"] = true unless options[:secure] == false
+# TODO LIv2 : Investigate, not sure this is needed, secure is always on?
+#      options[:"secure-urls"] = true unless options[:secure] == false
       super path, options
     end
 
