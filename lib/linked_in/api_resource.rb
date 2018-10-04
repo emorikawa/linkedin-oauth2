@@ -115,22 +115,25 @@ module LinkedIn
     end
 
     def profile_path(options={}, allow_multiple=true)
-      path = "/people"
+      '/people'.tap do |path|
+        id = options.delete(:id)
+        url = options.delete(:url)
 
-      id = options.delete(:id)
-      url = options.delete(:url)
+        ids = options.delete(:ids)
+        urls = options.delete(:urls)
 
-      ids = options.delete(:ids)
-      urls = options.delete(:urls)
+        if options.delete(:email) then raise deprecated end
 
-      if options.delete(:email) then raise deprecated end
+        if (id or url)
+          path << single_person_path(id, url)
+        elsif allow_multiple and (ids or urls)
+          path << multiple_people_path(ids, urls)
+        else
+          path << "/~"
+        end
 
-      if (id or url)
-        path += single_person_path(id, url)
-      elsif allow_multiple and (ids or urls)
-        path += multiple_people_path(ids, urls)
-      else
-        path += "/~"
+        fields = options.delete(:fields)
+        path << ":(#{fields})" if fields
       end
     end
 
