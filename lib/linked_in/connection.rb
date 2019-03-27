@@ -16,8 +16,8 @@ module LinkedIn
       # We need to use the FlatParamsEncoder so we can pass multiple of
       # the same param to certain endpoints (like the search API).
       self.options.params_encoder = ::Faraday::FlatParamsEncoder
-
-      self.response :linkedin_raise_error
+      middleware = Faraday::RackBuilder::Handler.new(LinkedIn::RaiseError)
+      self.builder.handlers.push(middleware)
     end
 
 
