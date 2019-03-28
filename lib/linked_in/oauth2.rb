@@ -125,7 +125,7 @@ module LinkedIn
         check_access_code_url!(options)
       end
 
-      tok = self.auth_code.get_token(code, options)
+      tok = self.auth_code.get_token(code, options.stringify_keys)
       self.access_token = LinkedIn::AccessToken.new(tok.token,
                                                     tok.expires_in,
                                                     tok.expires_at)
