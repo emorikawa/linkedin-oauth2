@@ -114,6 +114,10 @@ module LinkedIn
       end
     end
 
+    def me_path
+      path = "/me"
+    end
+
     def profile_path(options={}, allow_multiple=true)
       path = "/people"
 

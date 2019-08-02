@@ -39,6 +39,11 @@ module LinkedIn
       get(path, options)
     end
 
+    def me(options={})
+      path = me_path
+      get(path, options)
+    end
+
     # Retrieve a list of 1st degree connections for a user who has
     # granted access to his/her account
     #
@@ -95,7 +100,7 @@ module LinkedIn
       options = parse_id(id, options)
       path = "#{profile_path(options, false)}/skills"
       get(path, options)
-    end     
+    end
 
 
     protected ############################################################
