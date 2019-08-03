@@ -115,7 +115,7 @@ module LinkedIn
     end
 
     def me_path
-      path = "/me"
+      "/me"
     end
 
     def profile_path(options={}, allow_multiple=true)

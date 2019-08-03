@@ -103,15 +103,6 @@ module LinkedIn
     end
 
 
-    protected ############################################################
-
-
-    def get(path, options)
-      options[:"secure-urls"] = true unless options[:secure] == false
-      super path, options
-    end
-
-
     private ##############################################################
 
 
