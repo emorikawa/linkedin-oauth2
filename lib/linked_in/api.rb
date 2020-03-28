@@ -54,6 +54,7 @@ module LinkedIn
     def_delegators :@share_and_social_stream, :add_text_share
 
     def_delegators :@organizations, :organization_access
+                                    :organization
 
     private ##############################################################
 
