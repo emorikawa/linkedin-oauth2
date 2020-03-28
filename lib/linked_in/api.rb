@@ -66,6 +66,7 @@ module LinkedIn
       @companies = LinkedIn::Companies.new(@connection)
       @communications = LinkedIn::Communications.new(@connection)
       @share_and_social_stream = LinkedIn::ShareAndSocialStream.new(@connection)
+      @organizations = LinkedIn::Organizations.new(@connection)
     end
 
     def default_params

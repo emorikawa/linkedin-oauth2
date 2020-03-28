@@ -22,4 +22,6 @@ module LinkedIn
       end
     end
 
+  end
+
 end
