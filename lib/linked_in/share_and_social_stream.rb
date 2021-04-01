@@ -28,7 +28,7 @@ module LinkedIn
           "com.linkedin.ugc.MemberNetworkVisibility" => "PUBLIC"
         }
       }
-      post(path, params, "Content-Type" => "application/json")
+      post(path, params.to_json, "Content-Type" => "application/json")
     end
   end
 end
