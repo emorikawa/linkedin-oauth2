@@ -33,6 +33,7 @@ require "linked_in/groups"
 require "linked_in/companies"
 require "linked_in/communications"
 require "linked_in/share_and_social_stream"
+require "linked_in/organizations"
 
 # The primary API object that makes requests.
 # It composes in all of the endpoints

@@ -14,6 +14,11 @@ describe LinkedIn::Companies do
     expect(api.company(id: 1586)).to be_an_instance_of(LinkedIn::Mash)
   end
 
+  it "retrieves a company page with requested profile fields" do
+    stub("https://api.linkedin.com/v1/companies/1586:(id,name,description,logo-url)?")
+    expect(api.company(id: 1586, profile_fields: "id,name,description,logo-url")).to be_an_instance_of(LinkedIn::Mash)
+  end
+
   it "should be able to view a company by universal name" do
     stub("https://api.linkedin.com/v1/companies/universal-name=acme?")
     expect(api.company(name: "acme")).to be_an_instance_of(LinkedIn::Mash)

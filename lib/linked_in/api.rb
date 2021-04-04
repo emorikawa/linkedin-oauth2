@@ -24,7 +24,8 @@ module LinkedIn
                              :skills,
                              :connections,
                              :picture_urls,
-                             :new_connections
+                             :new_connections,
+                             :me
 
     def_delegators :@search, :search
 
@@ -50,15 +51,10 @@ module LinkedIn
 
     def_delegators :@communications, :send_message
 
-    def_delegators :@share_and_social_stream, :shares,
-                                              :share,
-                                              :add_share,
-                                              :like_share,
-                                              :share_likes,
-                                              :unlike_share,
-                                              :share_comments,
-                                              :update_comment,
-                                              :network_updates
+    def_delegators :@share_and_social_stream, :add_text_share
+
+    def_delegators :@organizations, :organization_access,
+                                    :organization
 
     private ##############################################################
 
@@ -70,16 +66,15 @@ module LinkedIn
       @companies = LinkedIn::Companies.new(@connection)
       @communications = LinkedIn::Communications.new(@connection)
       @share_and_social_stream = LinkedIn::ShareAndSocialStream.new(@connection)
+      @organizations = LinkedIn::Organizations.new(@connection)
     end
 
     def default_params
-      # https//developer.linkedin.com/documents/authentication
-      return {oauth2_access_token: @access_token.token}
+      {}
     end
 
     def default_headers
-      # https://developer.linkedin.com/documents/api-requests-json
-      return {"x-li-format" => "json"}
+      { "Authorization" => "Bearer #{@access_token.token}" }
     end
 
     def verify_access_token!(access_token)
