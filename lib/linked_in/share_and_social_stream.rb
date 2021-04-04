@@ -15,7 +15,7 @@ module LinkedIn
       path = "/ugcPosts"
       params = {
         "author" => authorId,
-        "lifecycleState" => "published",
+        "lifecycleState" => "PUBLISHED",
         "specificContent" => {
           "com.linkedin.ugc.ShareContent" => {
             "shareCommentary" => {
