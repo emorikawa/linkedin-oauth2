@@ -28,7 +28,7 @@ module LinkedIn
           "com.linkedin.ugc.MemberNetworkVisibility" => "PUBLIC"
         }
       }
-      post(path, params.to_json, "Content-Type" => "application/json")
+      post(path, params.to_json, { "Content-Type" => "application/json", "X-Restli-Protocol-Version" => "2.0.0" })
     end
   end
 end
